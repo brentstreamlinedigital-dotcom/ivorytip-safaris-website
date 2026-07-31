@@ -1,0 +1,6 @@
+{
+  "name": "Ivorytip Safaris",
+  "description": "An ultra-luxury safari booking experience inspired by unforgettable African journeys, featuring pristine typography, premium visual aesthetics, and an interactive availability engine.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

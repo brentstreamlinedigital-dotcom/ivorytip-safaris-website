@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Bodoni+Moda:ital,wght@0,400..900;1,400..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", "Inter", sans-serif;
+  --font-display: "Bodoni Moda", "Cinzel", "Playfair Display", serif;
+}
+
+/* ============================================================
+   CINEMATIC LAYER — cursor · grain · reveals · micro-interactions
+   ============================================================ */
+
+
+
+/* Nav link hover underline */
+.nav-link {
+  position: relative;
+  overflow: visible;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 0;
+  width: 0; height: 1px;
+  background: #fbbf24;
+  transition: width 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-link:hover::after,
+.nav-link:focus-visible::after { width: 100%; }
+
+/* Button shimmer sweep */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -80%;
+  width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.13), transparent);
+  pointer-events: none;
+  transform: skewX(-12deg);
+  transition: left 0.55s ease;
+}
+.btn-shimmer:hover::before { left: 140%; }
+
+/* Package card hover glow */
+.pkg-card {
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+.pkg-card:not(.pkg-featured):hover {
+  box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.2), 0 8px 32px rgba(0,0,0,0.4);
+  border-color: rgba(245, 158, 11, 0.2) !important;
+}
+
+/* Testimonial card hover glow */
+.review-card {
+  transition: box-shadow 0.4s ease, border-color 0.4s ease, transform 0.4s ease;
+}
+.review-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(245, 158, 11, 0.15);
+}
+
+/* Lodge tab hover left-glow */
+.lodge-tab {
+  position: relative;
+  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+.lodge-tab::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 10%; bottom: 10%;
+  width: 2px;
+  background: #fbbf24;
+  border-radius: 2px;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.lodge-tab:hover::before,
+.lodge-tab.lodge-active::before { transform: scaleY(1); }
+
+/* Gallery card image zoom */
+.gallery-card img {
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+.gallery-card:hover img { transform: scale(1.08) !important; }
+
+/* Ambient ambient glow pulse */
+@keyframes amb-pulse {
+  0%, 100% { opacity: 0.04; }
+  50%       { opacity: 0.09; }
+}
+.amb-glow { animation: amb-pulse 5s ease-in-out infinite; }
+
+/* GSAP pre-hidden (below-fold only — GSAP sets these before scroll) */
+.gsap-will-reveal { opacity: 1; }   /* neutral; GSAP overrides to 0 on mount */
+
+/* ============================================================ */
+
+/* Custom scrollbar to keep layout premium */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #110c08;
+}
+::-webkit-scrollbar-thumb {
+  background: #2c1f14;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3e2c1d;
+}
