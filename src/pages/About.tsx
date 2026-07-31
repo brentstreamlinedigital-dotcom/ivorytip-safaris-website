@@ -3,62 +3,38 @@ import { Link } from "react-router-dom";
 import { 
   Shield, 
   Compass, 
-  Clock, 
-  Users, 
   Heart, 
   ArrowRight,
   MapPin,
-  ChevronRight
+  Check,
+  Award,
+  Users
 } from "lucide-react";
 import { motion } from "motion/react";
 
-// @ts-ignore
-import fairHuntImage from "../../assets/'Fair Hunt' Image.jpg";
-
 export default function About() {
   const guideStats = [
-    { value: "40+", label: "Years Trust" },
-    { value: "100%", label: "Fair Chase" },
-    { value: "80k+", label: "Hectares Private Land" },
-    { value: "1:1", label: "Guide Ratio" }
+    { value: "1984", label: "Heritage Founding Year" },
+    { value: "100%", label: "Fair Chase Walk & Stalk" },
+    { value: "80,000", label: "Hectares Private Conservancy" },
+    { value: "1:1", label: "Hunter-to-PH Guide Ratio" }
   ];
 
   const coreValues = [
     {
-      title: "Ancestral Guiding",
-      desc: "Our trackers are native bushmen who carry generations of tracking wisdom, decoding sand footprints, broken branches, and bird calls.",
-      icon: Compass
+      title: "Lineage of Trust",
+      desc: "Our stalks are built on personal bonds. You enter as a client, but you walk the bush as a partner and leave as a lifetime friend of the Crous family.",
+      icon: Users
     },
     {
-      title: "Anti-Poaching Leadership",
-      desc: "We fund and field our own dedicated anti-poaching security patrol squads. Over 10% of every booking goes directly to habitat and wildlife protection.",
+      title: "Active Anti-Poaching Ring",
+      desc: "Sustainable hunting fees directly fund our dedicated, armed anti-poaching patrol units, keeping the conservancy border secure from illegal snares.",
       icon: Shield
     },
     {
-      title: "Community Upliftment",
-      desc: "We build water access infrastructure and supply primary school classrooms in the adjacent communal conservancy districts.",
+      title: "Savanna Stewardship",
+      desc: "We manage borehole water wells, direct animal health monitoring, and local community school infrastructure inside the communal districts.",
       icon: Heart
-    }
-  ];
-
-  const guides = [
-    {
-      name: "Jaco van der Merwe",
-      role: "Lead Master Professional Hunter",
-      bio: "Over 25 years of big game stalking experience. Renowned for tracking dangerous cape buffalo in dense river thorn scrub.",
-      img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&h=400&q=80"
-    },
-    {
-      name: "Tsumeb /Kae",
-      role: "Chief Bushman Tracker",
-      bio: "Born in the Kalahari sands, Tsumeb reads the desert like an open book. Able to trace aged trails over gravel plains.",
-      img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&h=400&q=80"
-    },
-    {
-      name: "Jofred Botha",
-      role: "Outpost Range Coordinator",
-      bio: "Coordinates conservancy biology, anti-poaching logistics, and custom high-caliber safari arms administration.",
-      img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&h=400&q=80"
     }
   ];
 
@@ -66,16 +42,16 @@ export default function About() {
     <div className="min-h-screen bg-[#0d0906] flex flex-col items-center">
       
       {/* Immersive Hero (Full Screen Viewport) */}
-      <div className="relative min-h-screen md:h-screen w-full flex flex-col justify-between overflow-hidden flex-none z-10">
+      <div className="relative min-h-screen md:h-[75vh] w-full flex flex-col justify-between overflow-hidden flex-none z-10">
         
         {/* Background Image Container */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
-            src={fairHuntImage} 
+            src="/assets/'Fair Hunt' Image.jpg" 
             alt="About Ivorytip Heritage" 
-            className="w-full h-full object-cover brightness-[0.45] scale-105 origin-center" 
+            className="w-full h-full object-cover brightness-[0.4] scale-105 origin-center" 
           />
-          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#0d0906] via-[#110c08]/80 to-transparent pointer-events-none z-10" />
+          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#0d0906] via-[#110c08]/85 to-transparent pointer-events-none z-10" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#110c08]/60 via-transparent to-transparent pointer-events-none z-10" />
           <div className="absolute inset-0 pointer-events-none z-[11] opacity-[0.038]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }} />
         </div>
@@ -90,11 +66,11 @@ export default function About() {
             <span className="text-amber-200/90 text-xs md:text-sm tracking-[0.6em] font-medium uppercase block">
               The Legend & Legacy
             </span>
-            <h2 className="font-sans text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[0.12em] text-white uppercase drop-shadow-2xl leading-none">
-              About Ivorytip Safaris
+            <h2 className="font-sans text-4xl sm:text-6xl md:text-7xl font-bold tracking-[0.12em] text-white uppercase drop-shadow-2xl leading-none">
+              Andre & Jenna Crous
             </h2>
             <p className="text-stone-300 text-xs md:text-sm font-light tracking-wide max-w-xl mx-auto leading-relaxed">
-              Honoring the code of fair chase, preserving high-conservation habitats, and delivering the absolute pinnacle of wilderness comfort since 1984.
+              Meet the family, professional hunters, and hospitality hosts dedicating their lives to ethical stalks and raw African stewardship.
             </p>
           </div>
         </main>
@@ -122,34 +98,87 @@ export default function About() {
         </div>
       </div>
 
-      {/* Main Narrative Section */}
-      <section className="max-w-7xl mx-auto px-6 lg:px-12 py-20 w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center text-left">
-        <div className="space-y-6">
-          <span className="text-xs uppercase tracking-[0.4em] text-amber-400 font-bold block">Forty Years in South Africa</span>
-          <h3 className="font-display text-2xl md:text-4xl font-bold text-white uppercase tracking-tight leading-tight">
-            Our Ancient Soil, <br />
-            Our Modern Sanctuary
-          </h3>
-          <div className="h-0.5 w-16 bg-amber-500/50 rounded" />
-          <p className="text-stone-300 text-sm font-light leading-relaxed">
-            Founded by veteran professional hunters, Ivorytip Safaris was established to combat mass hunting tourism and replace it with highly selective, conservation-first hunting expeditions. We believe that true hunting is a sacred connection with the wilderness—a physical stalk that respects the animal's natural senses.
-          </p>
-          <p className="text-stone-400 text-xs leading-relaxed font-light">
-            Our private Eastern Cape conservancy features no interior fences, allowing herds of kudu, gemsbuck, eland, and zebra to migrate naturally alongside large native predators. This open land layout ensures genuine chase and natural challenges on every hunt.
-          </p>
+      {/* Personal Hosts Story Section (Meet Andre & Jenna) */}
+      <section className="max-w-7xl mx-auto px-6 lg:px-12 py-24 w-full space-y-24 z-20">
+        
+        {/* Host 1: Andre Crous */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center text-left">
+          <div className="lg:col-span-5 relative rounded-2xl overflow-hidden border border-amber-500/20 p-2 bg-white/[0.02] shadow-xl group">
+            <img 
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&h=800&q=80" 
+              alt="Andre Crous - Professional Hunter" 
+              className="w-full h-96 md:h-[500px] object-cover rounded-xl brightness-[0.8] group-hover:scale-102 transition-transform duration-750"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute bottom-6 left-6 bg-black/85 border border-amber-500/25 px-4 py-2 rounded backdrop-blur-md">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-amber-300 block">Professional Hunter</span>
+              <span className="text-xs font-semibold text-white uppercase block mt-0.5">Lead Tracker & Guide</span>
+            </div>
+          </div>
+          <div className="lg:col-span-7 space-y-6">
+            <span className="text-xs uppercase tracking-[0.4em] text-amber-400 font-bold block">The Spirit of the Stalk</span>
+            <h3 className="font-display text-3xl md:text-5xl font-bold text-white uppercase tracking-tight leading-tight">
+              Andre Crous: <br />
+              Guiding with Respect
+            </h3>
+            <div className="h-0.5 w-16 bg-amber-500/50 rounded" />
+            <p className="text-stone-300 text-sm md:text-base font-light leading-relaxed">
+              Andre was born to the tracks of the South African bushveld. With decades spent reading sand spoor, monitoring valley drafts, and walking alongside native trackers, he leads the field stalks at Ivorytip Safaris. Andre believes a true hunt is a test of camouflage, stealth, and patience.
+            </p>
+            <p className="text-stone-400 text-xs md:text-sm leading-relaxed font-light">
+              Under his guidance, guests do not hunt from vehicles; they walk the acacia corridors, match thermals, and stalks target animals on foot. It is an honest stalk that honors the code of fair chase, ensuring that every harvest is an ethical, hard-earned connection with the wild.
+            </p>
+            <div className="bg-black/35 p-5 rounded-xl border border-white/5 flex gap-4 text-xs font-light text-stone-300">
+              <Award className="w-8 h-8 text-amber-400 shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <span className="font-semibold text-white uppercase block">Master Guide Credentials</span>
+                <p className="leading-relaxed">Full dangerous game licensing, expert tracking logistics, CITES framework compliance.</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="relative rounded-2xl overflow-hidden border border-white/10 p-2 bg-white/[0.02]">
-          <img 
-            src="https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80" 
-            alt="Savanna Wilderness Landscape" 
-            className="w-full h-80 object-cover rounded-xl brightness-[0.7]"
-            referrerPolicy="no-referrer"
-          />
+
+        {/* Host 2: Jenna Crous */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center text-left">
+          <div className="lg:col-span-7 space-y-6 order-2 lg:order-1">
+            <span className="text-xs uppercase tracking-[0.4em] text-amber-400 font-bold block">Wilderness Comfort & Hospitality</span>
+            <h3 className="font-display text-3xl md:text-5xl font-bold text-white uppercase tracking-tight leading-tight">
+              Jenna Crous: <br />
+              Hosting the Boma Heart
+            </h3>
+            <div className="h-0.5 w-16 bg-amber-500/50 rounded" />
+            <p className="text-stone-300 text-sm md:text-base font-light leading-relaxed">
+              While the adventure is defined in the field, the memory is perfected within our walls. Jenna coordinates the luxury hospitality and culinary experiences at Kikuyo and Emanzini. She ensures that every guest is welcomed as an extension of the Crous family, creating a warm, intimate atmosphere.
+            </p>
+            <p className="text-stone-400 text-xs md:text-sm leading-relaxed font-light">
+              From managing private chef wine pairings inside our stone dining bomas to setting up stargazing decks and plunge pools, Jenna’s touch makes the safari feel like home. She believes that trust, shared laughter, and late-night fireside stories are the true definition of African luxury.
+            </p>
+            <div className="bg-black/35 p-5 rounded-xl border border-white/5 flex gap-4 text-xs font-light text-stone-300">
+              <Heart className="w-8 h-8 text-amber-400 shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <span className="font-semibold text-white uppercase block">A Legacy of Comfort</span>
+                <p className="leading-relaxed">100% organic local farm produce, custom dietary planning, and five-star lodge hospitality.</p>
+              </div>
+            </div>
+          </div>
+          <div className="lg:col-span-5 relative rounded-2xl overflow-hidden border border-amber-500/20 p-2 bg-white/[0.02] shadow-xl group order-1 lg:order-2">
+            <img 
+              src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&h=800&q=80" 
+              alt="Jenna Crous - Hospitality Host" 
+              className="w-full h-96 md:h-[500px] object-cover rounded-xl brightness-[0.85] group-hover:scale-102 transition-transform duration-750"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute bottom-6 left-6 bg-black/85 border border-amber-500/25 px-4 py-2 rounded backdrop-blur-md">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-amber-300 block">Hospitality Director</span>
+              <span className="text-xs font-semibold text-white uppercase block mt-0.5">Stewardship Host</span>
+            </div>
+          </div>
         </div>
+
       </section>
 
-      {/* Core Values / Anti-Poaching Showcase */}
-      <section className="w-full bg-[#120e0a] border-y border-amber-900/10 py-20 px-6 lg:px-12">
+      {/* Stewardship / Conservation Pillars */}
+      <section className="w-full bg-[#120e0a] border-y border-amber-900/10 py-24 px-6 lg:px-12 z-20">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-2xl mx-auto space-y-4">
             <span className="text-xs uppercase tracking-[0.5em] text-amber-400 font-bold block">Conservation Pillars</span>
@@ -165,37 +194,6 @@ export default function About() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Guide Profiles */}
-      <section className="max-w-7xl mx-auto px-6 lg:px-12 py-20 w-full space-y-16">
-        <div className="text-center max-w-2xl mx-auto space-y-4">
-          <span className="text-xs uppercase tracking-[0.5em] text-amber-400 font-bold block">Field Masters</span>
-          <h3 className="font-display text-2xl md:text-4xl font-bold text-white uppercase tracking-tight">Meet Your Trackers & PHs</h3>
-          <p className="text-stone-400 text-xs leading-relaxed font-light">
-            Walk alongside experts carrying absolute command over local biology, ballistic handling, and custom field preparation logistics.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-          {guides.map((guide, idx) => (
-            <div key={idx} className="bg-[#1c130e]/40 border border-amber-900/15 rounded-2xl overflow-hidden flex flex-col justify-between hover:border-amber-500/20 transition-all duration-300">
-              <img 
-                src={guide.img} 
-                alt={guide.name} 
-                className="w-full h-64 object-cover object-center grayscale hover:grayscale-0 transition-all duration-500" 
-                referrerPolicy="no-referrer"
-              />
-              <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
-                <div>
-                  <span className="text-[9px] uppercase tracking-widest text-amber-400 font-bold">{guide.role}</span>
-                  <h4 className="font-sans text-base font-bold text-white uppercase mt-0.5">{guide.name}</h4>
-                  <p className="text-stone-400 text-xs leading-relaxed font-light mt-2">{guide.bio}</p>
-                </div>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
 

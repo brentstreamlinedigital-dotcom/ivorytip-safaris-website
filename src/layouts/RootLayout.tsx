@@ -29,17 +29,10 @@ import { useGSAP } from "@gsap/react";
 import Lenis from "lenis";
 import { Canvas } from '@react-three/fiber';
 import ParticleSystem from '../components/ParticleSystem';
+import { LODGES_LIST, LODGES } from "../data/lodges";
+import { FAQS } from "../data/faq";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
-
-// @ts-ignore
-import mainLodgeImage from "../../assets/Main Lodge Internal.jpg";
-// @ts-ignore
-import couplesRetreatImage from "../../assets/Couples Retreat.jpg";
-// @ts-ignore
-import woodCabinImage from "../../assets/Wood Cabin.jpg";
-// @ts-ignore
-import ctaBgImage from "../../assets/CTA BG.jpg";
 
 interface BookingDetails {
   destination: string;
@@ -150,23 +143,21 @@ export default function RootLayout() {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPhone, setUserPhone] = useState("");
-  const [selectedLodge, setSelectedLodge] = useState("Ivorytip Signature Lodge");
-  const [selectedDayTab, setSelectedDayTab] = useState(1);
-  const [selectedLodgeIndex, setSelectedLodgeIndex] = useState(0);
+  const [selectedLodge, setSelectedLodge] = useState(LODGES_LIST[0].name);
 
   const [booking, setBooking] = useState<BookingDetails>({
-    destination: "Serengeti National Park, Tanzania",
+    destination: "Ivorytip Highlands Conservancy, South Africa",
     checkIn: "2026-07-15",
     checkOut: "2026-07-22",
     guests: "2 Adults",
-    safariType: "Luxury Safari",
+    safariType: "Luxury 1:1 Safari",
   });
 
   const [inquiryForm, setInquiryForm] = useState({
     name: "",
     email: "",
     package: "The Ivorytip Signature",
-    lodge: "Ivorytip Signature Lodge",
+    lodge: LODGES_LIST[0].name,
     message: ""
   });
 
@@ -195,53 +186,6 @@ export default function RootLayout() {
     }
   });
   const [pricingSearchQuery, setPricingSearchQuery] = useState("");
-
-  const guestOptions = [
-    "1 Adult",
-    "2 Adults",
-    "3 Adults",
-    "4 Adults",
-    "Family Suite (2 Adults, 2 Kids)"
-  ];
-
-  const safariTypes = [
-    "Luxury Safari",
-    "Private Guided Expedition",
-    "Exclusive Balloon Safari",
-    "Family Lodge Adventure"
-  ];
-
-  const destinations = [
-    "Serengeti National Park, Tanzania",
-    "Masai Mara Reserve, Kenya",
-    "Okavango Delta, Botswana",
-    "Kruger National Park, South Africa",
-    "Ngorongoro Crater, Tanzania"
-  ];
-
-  const lodges = [
-    {
-      name: "Ivorytip Signature Lodge",
-      location: "Eastern Cape Sanctuary, South Africa",
-      image: mainLodgeImage,
-      tagline: "The majestic heartbeat of our wilderness sanctuary, combining colonial opulence with state-of-the-art luxuries.",
-      features: ["Central elegant dining hall & library", "Heated panoramic infinity pool", "Luxury colonial-style stone suites", "Exclusive private game drive vehicles"]
-    },
-    {
-      name: "Whispering Valleys Couples Retreat",
-      location: "Secluded Valley Outpost",
-      image: couplesRetreatImage,
-      tagline: "An intimate sanctuary nestled deep in the private valley bushveld, completely secluded from all other guests with a private plunge pool.",
-      features: ["Completely secluded private villa", "King-size panoramic sky-view bed", "Duo sunken plunge pool & fire pit", "Private personal host & chef service"]
-    },
-    {
-      name: "The Secluded Timber Cabin",
-      location: "Off-Grid Wilderness Outpost",
-      image: woodCabinImage,
-      tagline: "An off-grid raw wooden cabin offering an authentic wilderness experience under the stars with pure essential amenities.",
-      features: ["Off-grid natural timber design", "Authentic basic kitchen & wood stove", "Outdoor wood-fired hot tub", "No electrical grids for pure stargazing"]
-    }
-  ];
 
   const checkInDate = new Date(booking.checkIn);
   const checkOutDate = new Date(booking.checkOut);
@@ -301,18 +245,71 @@ export default function RootLayout() {
     setIsBookingConfirmed(true);
   };
 
+  // Structured SEO Metadata Schemas
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": FAQS.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  };
+
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "TravelAgency",
+    "name": "Ivorytip Safaris",
+    "image": "https://ivorytip-safaris-website-official.vercel.app/assets/hero_bg.jpg",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Eastern Cape",
+      "addressCountry": "ZA"
+    },
+    "description": "Ethical South African walk-and-stalk hunting safari conservancy offering bespoke five-star lodge buyouts.",
+    "telephone": "+27-41-980-0199",
+    "priceRange": "$$$$"
+  };
+
+  const breadcrumbsSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://ivorytip-safaris-website-official.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": location.pathname.substring(1) || "Home",
+        "item": `https://ivorytip-safaris-website-official.vercel.app${location.pathname}`
+      }
+    ]
+  };
+
   return (
     <div className="relative min-h-screen font-sans text-stone-100 bg-[#0d0906] overflow-x-hidden selection:bg-[#e8dec9] selection:text-[#110c08] flex flex-col scroll-smooth">
       
+      {/* Dynamic SEO JSON-LD injection */}
+      <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+      <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
+      <script type="application/ld+json">{JSON.stringify(breadcrumbsSchema)}</script>
+
       {/* 3D Particle System Canvas Backdrop */}
-      <div className="fixed inset-0 z-0 pointer-events-none mix-blend-screen opacity-40">
+      <div className="fixed inset-0 z-0 pointer-events-none mix-blend-screen opacity-35">
         <Canvas camera={{ position: [0, 0, 10], fov: 75 }}>
-          <ParticleSystem count={1000} />
+          <ParticleSystem count={600} />
         </Canvas>
       </div>
 
       {/* Global Header */}
-      <header className="absolute top-0 left-0 right-0 z-40 max-w-8xl mx-auto px-8 md:px-12 pt-8 md:pt-12 w-full" id="header-nav">
+      <header className="absolute top-0 left-0 right-0 z-40 max-w-8xl mx-auto px-8 md:px-12 pt-8 md:pt-12 w-full animate-fade-in" id="header-nav">
         <div className="grid grid-cols-3 items-center pb-8 md:pb-12">
           
           {/* Left: Desktop links & Hamburger */}
@@ -382,11 +379,11 @@ export default function RootLayout() {
         <section 
           id="cta-section" 
           className="relative z-20 min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat py-20 px-6 lg:px-12 w-full overflow-hidden"
-          style={{ backgroundImage: `url(${ctaBgImage})` }}
+          style={{ backgroundImage: `url('/assets/hero_bg.jpg')` }}
         >
-          <div className="absolute inset-0 bg-stone-950/75 pointer-events-none" />
+          <div className="absolute inset-0 bg-stone-950/85 pointer-events-none" />
           
-          <div className="max-w-4xl w-full mx-auto border border-white/10 rounded-3xl bg-black/40 backdrop-blur-xl p-8 md:p-16 relative overflow-hidden text-center shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] border-solid">
+          <div className="max-w-4xl w-full mx-auto border border-white/10 rounded-3xl bg-black/40 backdrop-blur-xl p-8 md:p-16 relative overflow-hidden text-center shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] border-solid z-10">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-amber-500/5 blur-[120px] rounded-full pointer-events-none" />
             
             {!isInquirySubmitted ? (
@@ -421,7 +418,7 @@ export default function RootLayout() {
                       required
                       value={inquiryForm.name}
                       onChange={(e) => setInquiryForm({ ...inquiryForm, name: e.target.value })}
-                      placeholder="Arthur Pendelton"
+                      placeholder="Francois Du Preez"
                       className="w-full bg-white/[0.03] hover:bg-white/[0.07] text-white border border-white/10 rounded-md px-3.5 py-3 text-xs md:text-sm focus:ring-1 focus:ring-amber-400/50 border-solid"
                     />
                   </div>
@@ -432,7 +429,7 @@ export default function RootLayout() {
                       required
                       value={inquiryForm.email}
                       onChange={(e) => setInquiryForm({ ...inquiryForm, email: e.target.value })}
-                      placeholder="arthur@dallaswild.com"
+                      placeholder="francois@buffalo.com"
                       className="w-full bg-white/[0.03] hover:bg-white/[0.07] text-white border border-white/10 rounded-md px-3.5 py-3 text-xs md:text-sm focus:ring-1 focus:ring-amber-400/50 border-solid"
                     />
                   </div>
@@ -456,7 +453,7 @@ export default function RootLayout() {
                       onChange={(e) => setInquiryForm({ ...inquiryForm, lodge: e.target.value })}
                       className="w-full bg-white/[0.03] text-white border border-white/10 rounded-md px-3.5 py-3 text-xs md:text-sm border-solid"
                     >
-                      {lodges.map((l, idx) => (
+                      {LODGES_LIST.map((l, idx) => (
                         <option key={idx} value={l.name} className="bg-[#1c130d] text-white">{l.name}</option>
                       ))}
                     </select>
@@ -564,7 +561,7 @@ export default function RootLayout() {
                   setActiveModal(null);
                   setIsBookingConfirmed(false);
                 }}
-                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 text-stone-300 hover:text-white transition-colors cursor-pointer"
+                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 text-stone-300 hover:text-white transition-colors cursor-pointer z-50"
                 aria-label="Close Modal"
               >
                 <X className="w-5 h-5" />
@@ -574,14 +571,14 @@ export default function RootLayout() {
                 <div>
                   {!isBookingConfirmed ? (
                     <div>
-                      <div className="border-b border-white/10 pb-6 mb-8">
+                      <div className="border-b border-white/10 pb-6 mb-8 text-left">
                         <span className="text-xs uppercase tracking-widest text-amber-200">Luxury Booking Draft</span>
                         <h3 className="font-display text-2xl md:text-3xl font-bold text-white mt-1">Review Your Exclusive Journey</h3>
                         
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4 bg-black/25 p-4 rounded-lg text-xs">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4 bg-black/25 p-4 rounded-lg text-xs font-mono">
                           <div>
                             <span className="text-stone-400 block mb-1">Destination</span>
-                            <span className="font-medium text-white">{booking.destination}</span>
+                            <span className="font-medium text-white">{booking.destination.split(",")[0]}</span>
                           </div>
                           <div>
                             <span className="text-stone-400 block mb-1">Duration</span>
@@ -599,7 +596,7 @@ export default function RootLayout() {
                       </div>
 
                       <form onSubmit={handleBookingSubmit} className="space-y-6 text-left">
-                        <h4 className="text-xs uppercase tracking-[0.2em] font-semibold text-stone-400">Hunter & Guest Registry</h4>
+                        <h4 className="text-xs uppercase tracking-[0.2em] font-semibold text-stone-400 font-sans">Hunter & Guest Registry</h4>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                           <div className="flex flex-col gap-2">
                             <label className="text-[10px] uppercase font-bold tracking-widest text-amber-200">Full Name</label>
@@ -643,7 +640,7 @@ export default function RootLayout() {
                             onChange={(e) => setSelectedLodge(e.target.value)}
                             className="w-full bg-white/[0.03] text-white border border-white/10 rounded-md px-3.5 py-3 text-xs md:text-sm"
                           >
-                            {lodges.map((l, idx) => (
+                            {LODGES_LIST.map((l, idx) => (
                               <option key={idx} value={l.name} className="bg-[#1c130d] text-white">{l.name}</option>
                             ))}
                           </select>
@@ -656,7 +653,7 @@ export default function RootLayout() {
                     </div>
                   ) : (
                     <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-12 space-y-6">
-                      <div className="mx-auto w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                      <div className="mx-auto w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 border-solid">
                         <CheckCircle2 className="w-8 h-8" />
                       </div>
                       <h3 className="font-display text-3xl font-bold text-white uppercase tracking-tight">Expedition Reserved</h3>
@@ -675,19 +672,21 @@ export default function RootLayout() {
                     <h3 className="font-display text-3xl font-bold text-white mt-1">Our Premium Safari Tiers</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {safariTypes.map((type, idx) => (
-                      <div key={idx} className="bg-black/20 border border-white/5 rounded-xl p-6 space-y-4">
-                        <Compass className="w-8 h-8 text-amber-400" />
-                        <h4 className="font-sans text-lg font-bold text-white uppercase">{type}</h4>
-                        <p className="text-stone-400 text-xs leading-relaxed font-light">
-                          Our customized options are tailored for extreme comfort, private guide layouts, or family-based luxury lodges.
-                        </p>
+                    {["Luxury 1:1 Safari", "Private Group Expedition", "Companion Observer Program"].map((type, idx) => (
+                      <div key={idx} className="bg-black/20 border border-white/5 rounded-xl p-6 space-y-4 flex flex-col justify-between">
+                        <div className="space-y-3">
+                          <Compass className="w-8 h-8 text-amber-400" />
+                          <h4 className="font-sans text-lg font-bold text-white uppercase">{type}</h4>
+                          <p className="text-stone-400 text-xs leading-relaxed font-light">
+                            Our customized options are tailored for perfect comfort, private PH guiding layout, or family-based luxury lodges.
+                          </p>
+                        </div>
                         <button 
                           onClick={() => {
                             setBooking({ ...booking, safariType: type });
                             setActiveModal("availability");
                           }}
-                          className="w-full py-2.5 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-lg text-xs uppercase font-bold"
+                          className="w-full py-2.5 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-lg text-xs uppercase font-bold mt-4"
                         >
                           Select This Style
                         </button>
@@ -703,10 +702,10 @@ export default function RootLayout() {
                     <span className="text-xs uppercase tracking-widest text-amber-200">Accommodations</span>
                     <h3 className="font-display text-3xl font-bold text-white mt-1">Signature Lodges</h3>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {lodges.map((l, idx) => (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {LODGES_LIST.map((l, idx) => (
                       <div key={idx} className="bg-black/20 border border-white/5 rounded-xl overflow-hidden flex flex-col justify-between">
-                        <img src={l.image} alt={l.name} className="w-full h-48 object-cover" />
+                        <img src={l.heroImage} alt={l.name} className="w-full h-48 object-cover" />
                         <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
                           <div className="space-y-2">
                             <h4 className="font-sans text-base font-bold text-white uppercase">{l.name}</h4>
@@ -736,7 +735,7 @@ export default function RootLayout() {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {[
-                      { title: "Ancestral Trackers", icon: Compass, desc: "Walk the dry riverbeds alongside guides carrying centuries of local track knowledge. Find legendary kudu and cheetah stalks." },
+                      { title: "Ancestral Trackers", icon: Compass, desc: "Walk the dry riverbeds alongside guides carrying centuries of local track knowledge. Find kudu and cheetah stalks." },
                       { title: "Gourmet Savanna Dining", icon: Coffee, desc: "End the long hot game stalk with candlelit dining tables set up directly under massive acacia canopies." },
                       { title: "Trophy Export Admin", icon: Shield, desc: "Full-handling taxidermy oversight, state permits processing, and custom shipping handling globally included." },
                       { title: "Balloon Champagne Sunrises", icon: Sparkles, desc: "Floating weightlessly over Eastern Cape valleys in premium private balloons, popping champagne as the sun clears the horizon." },
@@ -753,47 +752,6 @@ export default function RootLayout() {
                 </div>
               )}
 
-              {activeModal === "about" && (
-                <div className="space-y-6 text-left">
-                  <div className="border-b border-white/10 pb-4">
-                    <span className="text-xs uppercase tracking-widest text-amber-200">The Legend</span>
-                    <h3 className="font-display text-3xl font-bold text-white mt-1">Our Heritage & Promise</h3>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div className="space-y-4 text-xs text-stone-300 leading-relaxed font-light">
-                      <p>
-                        Established over four decades ago, <strong>Ivorytip Safaris</strong> stands as the absolute pinnacle of African adventure travel. We believe true luxury lies not in gilded fixtures, but in pristine proximity to raw wilderness, flawless guiding, and absolute visual isolation.
-                      </p>
-                      <p>
-                        Our camps and sanctuaries are situated on exclusive private land conservancies, keeping you safe and far removed from crowded mass tourist tracks. 
-                      </p>
-                      <p>
-                        Every detail is crafted with environmental preservation at the forefront. We fund and manage critical local anti-poaching squads, water access pipelines, and native education foundations with a fixed portion of every safari booking.
-                      </p>
-                      <div className="pt-4 flex gap-4">
-                        <div className="border-l-2 border-amber-400 pl-4">
-                          <span className="block font-display text-2xl font-bold text-white">40+</span>
-                          <span className="text-[10px] text-stone-400 uppercase tracking-widest">Years of Trust</span>
-                        </div>
-                        <div className="border-l-2 border-amber-400 pl-4">
-                          <span className="block font-display text-2xl font-bold text-white">100%</span>
-                          <span className="text-[10px] text-stone-400 uppercase tracking-widest">Carbon Neutral</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <img 
-                        src="https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80" 
-                        alt="Ivorytip Safari Heritage" 
-                        className="w-full rounded border border-amber-900/10 shadow-lg"
-                        referrerPolicy="no-referrer"
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-
             </motion.div>
           </div>
         )}
@@ -806,7 +764,7 @@ export default function RootLayout() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 30 }}
               transition={{ type: "spring", duration: 0.5 }}
-              className="relative bg-[#1c130e] border border-amber-900/30 rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 md:p-10"
+              className="relative bg-[#1c130e] border border-amber-900/30 rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 md:p-10 z-50"
               id="luxury-interactive-modal"
             >
               <button 
@@ -814,7 +772,7 @@ export default function RootLayout() {
                   setActiveModal(null);
                   setPricingSearchQuery("");
                 }}
-                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 text-stone-300 hover:text-white transition-colors cursor-pointer"
+                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 text-stone-300 hover:text-white transition-colors cursor-pointer focus:outline-none"
                 aria-label="Close Modal"
               >
                 <X className="w-5 h-5" />
@@ -919,7 +877,7 @@ export default function RootLayout() {
                     animate={{ opacity: 1 }}
                     className="space-y-8"
                   >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gradient-to-r from-amber-950/20 to-black/40 border border-amber-500/20 rounded-xl p-5 md:p-6 text-left">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gradient-to-r from-amber-950/20 to-black/40 border border-amber-500/20 rounded-xl p-5 md:p-6 text-left border-solid">
                       <div className="space-y-2">
                         <h4 className="text-xs uppercase font-bold tracking-widest text-amber-400 flex items-center gap-1.5 font-sans">
                           <Clock className="w-4 h-4 text-amber-400" />
@@ -991,7 +949,7 @@ export default function RootLayout() {
                                 </td>
                                 <td className="p-3 md:p-4 text-right font-mono font-semibold">
                                   {item.price === "POA" ? (
-                                    <span className="text-[10px] tracking-widest text-amber-300/80 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 uppercase">
+                                    <span className="text-[10px] tracking-widest text-amber-300/80 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 uppercase border-solid">
                                       POA
                                     </span>
                                   ) : (

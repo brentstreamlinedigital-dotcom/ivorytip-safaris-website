@@ -5,15 +5,17 @@ import {
   Clock, 
   Coffee, 
   FileText, 
-  HelpCircle,
-  Plus,
-  Trash2,
+  Plus, 
+  Trash2, 
   ArrowRight,
   Calculator,
   Compass,
-  Info
+  Info,
+  Calendar,
+  Sparkles
 } from "lucide-react";
 import { motion } from "motion/react";
+import { HUNTING_STEPS } from "../data/hunting";
 
 interface SpeciesSelection {
   species: string;
@@ -49,7 +51,7 @@ export default function Packages() {
       title: "The Plains Game Classic",
       price: "$6,500",
       duration: "5 Days / 4 Nights",
-      lodge: "Whispering Valleys Couples Retreat",
+      lodge: "Kikuyo Lodge",
       species: "1x Kudu, 1x Wildebeest, 1x Impala",
       features: [
         "1:1 professional hunter guide ratio",
@@ -65,7 +67,7 @@ export default function Packages() {
       title: "The Ivorytip Signature",
       price: "$12,500",
       duration: "7 Days / 6 Nights",
-      lodge: "Ivorytip Signature Lodge",
+      lodge: "Kikuyo Lodge",
       species: "1x Eland, 1x Oryx, 1x Zebra, 1x Bushbuck",
       features: [
         "Senior professional tracker & master skinners",
@@ -82,7 +84,7 @@ export default function Packages() {
       title: "The Monarch Big Game",
       price: "$19,500",
       duration: "10 Days / 9 Nights",
-      lodge: "The Secluded Timber Cabin",
+      lodge: "Emanzini Lodge",
       species: "1x Cape Buffalo, 1x Waterbuck, 1x Blue Wildebeest, 1x Warthog",
       features: [
         "Legendary native tracking team & canine units",
@@ -125,7 +127,7 @@ export default function Packages() {
       name: "",
       email: "",
       package: "Custom Bespoke Hunt",
-      lodge: "Ivorytip Signature Lodge",
+      lodge: "Kikuyo Lodge",
       message: `Bespoke calculator planning draft:\n- Duration: ${stayNights} Nights\n- Hunters: ${hunterCount}\n- Estimated Price: $${totalEstimate.toLocaleString()}\n- Species: ${speciesText}`
     });
     handleNavClick("cta-section");
@@ -135,16 +137,16 @@ export default function Packages() {
     <div className="min-h-screen bg-[#0d0906] flex flex-col items-center">
       
       {/* Immersive Hero (Full Screen Viewport) */}
-      <div className="relative min-h-screen md:h-screen w-full flex flex-col justify-between overflow-hidden flex-none z-10">
+      <div className="relative min-h-screen md:h-[75vh] w-full flex flex-col justify-between overflow-hidden flex-none z-10">
         
         {/* Background Image Container */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
-            src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=1600&q=90" 
+            src="/assets/hero_bg.jpg" 
             alt="Ivorytip Safari Packages" 
-            className="w-full h-full object-cover brightness-[0.45] scale-105 origin-center" 
+            className="w-full h-full object-cover brightness-[0.4] scale-105 origin-center" 
           />
-          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#0d0906] via-[#110c08]/80 to-transparent pointer-events-none z-10" />
+          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#0d0906] via-[#110c08]/85 to-transparent pointer-events-none z-10" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#110c08]/60 via-transparent to-transparent pointer-events-none z-10" />
           <div className="absolute inset-0 pointer-events-none z-[11] opacity-[0.038]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }} />
         </div>
@@ -159,11 +161,11 @@ export default function Packages() {
             <span className="text-amber-200/90 text-xs md:text-sm tracking-[0.6em] font-medium uppercase block">
               Safari Expeditions
             </span>
-            <h2 className="font-sans text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[0.12em] text-white uppercase drop-shadow-2xl leading-none">
-              Hunting Trophies & Packages
+            <h2 className="font-sans text-4xl sm:text-6xl md:text-7xl font-bold tracking-[0.12em] text-white uppercase drop-shadow-2xl leading-none">
+              Trophies & Packages
             </h2>
             <p className="text-stone-300 text-xs md:text-sm font-light tracking-wide max-w-xl mx-auto leading-relaxed">
-              Select one of our curated package tiers, or use our interactive cost planner below to build a bespoke tracking schedule.
+              Curated luxury hunting packages, step-by-step stalk timelines, and our interactive bespoke cost planner.
             </p>
           </div>
         </main>
@@ -175,8 +177,8 @@ export default function Packages() {
         </div>
       </div>
 
-      {/* Packages Grid */}
-      <section className="max-w-7xl mx-auto px-6 lg:px-12 py-20 w-full space-y-16">
+      {/* 1. Packages Grid */}
+      <section className="max-w-7xl mx-auto px-6 lg:px-12 py-20 w-full space-y-16 z-20">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-white/5 pb-8 text-left">
           <div className="space-y-1">
             <h3 className="font-display text-xl md:text-2xl font-bold text-white uppercase tracking-wider">Curated Expeditions</h3>
@@ -184,7 +186,7 @@ export default function Packages() {
           </div>
           <button
             onClick={() => setActiveModal("pricing")}
-            className="btn-shimmer flex items-center gap-2 border border-amber-400 text-amber-200 hover:text-amber-100 px-6 py-2.5 text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 hover:bg-amber-400/10 cursor-pointer bg-black/40 backdrop-blur-sm rounded-lg"
+            className="btn-shimmer flex items-center gap-2 border border-amber-400 text-amber-200 hover:text-amber-100 px-6 py-2.5 text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 hover:bg-amber-400/10 cursor-pointer bg-black/40 backdrop-blur-sm rounded-lg animate-pulse"
           >
             <FileText className="w-4 h-4 text-amber-400" />
             View Complete Price Catalog
@@ -197,7 +199,7 @@ export default function Packages() {
               key={pkg.id}
               className={`pkg-card relative flex flex-col justify-between rounded-2xl p-8 border transition-all duration-500 overflow-hidden text-left ${
                 pkg.featured
-                  ? "pkg-featured bg-[#1c130e] border-amber-500/50 shadow-2xl shadow-black/40 scale-[1.02] md:scale-105 z-10"
+                  ? "pkg-featured bg-gradient-to-br from-[#1c130e] to-[#150d0a] border-amber-500/50 shadow-2xl shadow-black/80 scale-[1.02] md:scale-105 z-10"
                   : "bg-black/20 border-white/[0.04] hover:bg-white/[0.01] hover:border-white/10"
               }`}
             >
@@ -214,7 +216,7 @@ export default function Packages() {
                       {pkg.tag}
                     </span>
                   )}
-                  <h3 className="font-sans text-xl md:text-2xl font-bold text-white leading-tight">
+                  <h3 className="font-sans text-xl md:text-2xl font-bold text-white leading-tight uppercase">
                     {pkg.title}
                   </h3>
                   <div className="flex items-baseline gap-2 mt-4">
@@ -232,18 +234,18 @@ export default function Packages() {
                   </div>
                   <div className="flex items-center gap-2 text-xs text-stone-300 font-medium">
                     <Coffee className="w-4 h-4 text-amber-400 shrink-0" />
-                    <span>Lodge Sanctuary: {pkg.lodge.split(" ")[0]}</span>
+                    <span>Lodge Sanctuary: {pkg.lodge}</span>
                   </div>
                   <div className="bg-black/35 p-3 rounded border border-amber-900/10 mt-2 border-solid">
                     <span className="text-[9px] uppercase text-amber-400 font-bold tracking-wider block mb-1">Included Trophies:</span>
-                    <p className="text-xs text-amber-100 font-medium font-mono">{pkg.species}</p>
+                    <p className="text-xs text-amber-100 font-medium font-mono leading-relaxed">{pkg.species}</p>
                   </div>
                 </div>
 
                 <div className="space-y-3 pt-2">
                   <span className="text-[9px] uppercase tracking-wider text-stone-400 font-bold block">Expedition Details</span>
-                  {pkg.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-start gap-2.5 text-xs text-stone-300">
+                  {pkg.features.map((feature, fIdx) => (
+                    <div key={fIdx} className="flex items-start gap-2.5 text-xs text-stone-300">
                       <Check className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
                       <span>{feature}</span>
                     </div>
@@ -283,8 +285,66 @@ export default function Packages() {
         </div>
       </section>
 
-      {/* Dynamic calculator section */}
-      <section className="w-full bg-[#120e0a] border-t border-amber-900/10 py-20 px-6 lg:px-12 text-left">
+      {/* 2. 10-Step Hunting Timeline Experience (Major Redesign / Immersive Storytelling) */}
+      <section className="w-full bg-[#120e0a] border-y border-amber-900/10 py-24 px-6 lg:px-12 text-left z-20">
+        <div className="max-w-7xl mx-auto space-y-16">
+          <div className="text-center max-w-2xl mx-auto space-y-4">
+            <span className="text-xs uppercase tracking-[0.5em] text-amber-400 font-bold block">Choreographed Journey</span>
+            <h3 className="font-display text-2xl md:text-4xl font-bold text-white uppercase tracking-tight">The 10-Step Safari Experience</h3>
+            <p className="text-stone-400 text-xs md:text-sm font-light leading-relaxed">
+              We separate true hunting from commercial outfitting. Read the chronicle of your stalk spoor, from initial caliber consultations to the final boma feast.
+            </p>
+          </div>
+
+          <div className="relative border-l border-amber-500/10 ml-4 md:ml-1/2 space-y-16 py-8">
+            {HUNTING_STEPS.map((step, idx) => {
+              const isEven = idx % 2 === 0;
+              return (
+                <div key={step.stepNumber} className="relative flex flex-col md:flex-row items-stretch gap-8 w-full md:w-auto">
+                  
+                  {/* Timeline Dot Indicator */}
+                  <div className="absolute -left-2.5 md:-left-3.5 top-2 w-5 h-5 md:w-7 md:h-7 rounded-full bg-[#0d0906] border-2 border-amber-400 flex items-center justify-center z-10 shadow-lg">
+                    <span className="text-[8px] md:text-[9px] font-bold text-amber-400 font-mono">{step.stepNumber}</span>
+                  </div>
+
+                  {/* Main Step content box (Desktop Alternating Layout) */}
+                  <div className={`pl-8 md:pl-0 md:w-1/2 flex flex-col justify-center ${
+                    isEven ? "md:pr-12 md:text-right md:items-end" : "md:pl-12 md:order-2 md:items-start"
+                  }`}>
+                    <span className="text-[10px] text-amber-400/90 font-mono uppercase tracking-widest">{step.duration}</span>
+                    <h4 className="font-display text-xl md:text-2xl font-bold text-white uppercase tracking-tight mt-1">{step.title}</h4>
+                    <p className="text-stone-300 text-xs md:text-sm leading-relaxed font-light mt-3 max-w-lg">
+                      {step.longDesc}
+                    </p>
+                    
+                    {/* Golden tip highlight box */}
+                    <div className="bg-[#1c130e] border border-amber-500/10 p-3 rounded-lg text-[10px] font-light text-stone-300 italic mt-4 max-w-md border-solid flex gap-2 items-start text-left">
+                      <Info className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                      <span>{step.tip}</span>
+                    </div>
+                  </div>
+
+                  {/* Visual Image container (Desktop Alternating Layout) */}
+                  <div className={`pl-8 md:pl-0 md:w-1/2 relative rounded-xl overflow-hidden p-1 bg-white/[0.01] border border-white/5 border-solid h-52 md:h-64 ${
+                    isEven ? "md:order-2 md:ml-12" : "md:pr-12 md:mr-12"
+                  }`}>
+                    <img 
+                      src={step.image} 
+                      alt={step.title} 
+                      className="w-full h-full object-cover rounded-lg brightness-[0.7] hover:scale-103 transition-transform duration-500" 
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Dynamic Calculator Section */}
+      <section className="w-full py-24 px-6 lg:px-12 text-left z-20">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
           {/* Left panel: Inputs */}
@@ -418,7 +478,7 @@ export default function Packages() {
             <div className="text-[10px] text-stone-400 font-light flex items-start gap-2">
               <Info className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
               <span>
-                Daily guide fees cover master PHs, skinners, 4x4 vehicles, luxury lodging buyout, boma dining, and permit administration. Trophy fees are only payable on animals harvested or wounded.
+                Daily guide fees cover PHs, trackers, skinners, 4x4 vehicles, luxury lodging, boma dining, and permit administration. Trophy fees are only payable on animals harvested or wounded.
               </span>
             </div>
           </div>

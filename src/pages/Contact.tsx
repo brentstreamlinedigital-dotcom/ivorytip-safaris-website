@@ -7,17 +7,13 @@ import {
   Shield, 
   CheckCircle2, 
   Compass, 
-  Clock, 
-  Calendar,
-  Users
+  Clock
 } from "lucide-react";
 import { motion } from "motion/react";
-
-// @ts-ignore
-import ctaBgImage from "../../assets/CTA BG.jpg";
+import { LODGES_LIST } from "../data/lodges";
 
 export default function Contact() {
-  const { inquiryForm, setInquiryForm } = useOutletContext<any>();
+  const { inquiryForm } = useOutletContext<any>();
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const [contactData, setContactData] = useState({
@@ -25,7 +21,7 @@ export default function Contact() {
     email: inquiryForm.email || "",
     phone: "",
     package: inquiryForm.package || "The Ivorytip Signature",
-    lodge: inquiryForm.lodge || "Ivorytip Signature Lodge",
+    lodge: inquiryForm.lodge || LODGES_LIST[0].name,
     dates: "",
     hunters: 1,
     observers: 0,
@@ -46,11 +42,11 @@ export default function Contact() {
         {/* Background Image Container */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
-            src={ctaBgImage} 
+            src="/assets/hero_bg.jpg" 
             alt="Contact Ivorytip Safaris" 
-            className="w-full h-full object-cover brightness-[0.45] scale-105 origin-center" 
+            className="w-full h-full object-cover brightness-[0.4] scale-105 origin-center" 
           />
-          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#0d0906] via-[#110c08]/80 to-transparent pointer-events-none z-10" />
+          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#0d0906] via-[#110c08]/85 to-transparent pointer-events-none z-10" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#110c08]/60 via-transparent to-transparent pointer-events-none z-10" />
           <div className="absolute inset-0 pointer-events-none z-[11] opacity-[0.038]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }} />
         </div>
@@ -63,7 +59,7 @@ export default function Contact() {
         <main className="relative z-30 max-w-8xl mx-auto px-8 md:px-12 flex-1 flex flex-col justify-center items-center py-12 md:py-20 text-center w-full min-h-0 pt-32">
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-4 md:space-y-6">
             <span className="text-amber-200/90 text-xs md:text-sm tracking-[0.6em] font-medium uppercase block">
-              Reservation registry
+              Reservation Registry
             </span>
             <h2 className="font-sans text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[0.12em] text-white uppercase drop-shadow-2xl leading-none">
               Secure Booking Consultation
@@ -85,7 +81,7 @@ export default function Contact() {
       <section className="max-w-7xl mx-auto px-6 lg:px-12 py-16 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-start relative z-10 text-left">
         
         {/* Left Side: Form */}
-        <div className="lg:col-span-7 bg-[#1c130e]/40 border border-amber-900/15 rounded-3xl p-8 md:p-12 relative overflow-hidden backdrop-blur-xl border-solid">
+        <div className="lg:col-span-7 bg-[#1c130e]/40 border border-amber-900/15 rounded-3xl p-8 md:p-12 relative overflow-hidden backdrop-blur-xl border-solid shadow-2xl">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[250px] bg-amber-500/5 blur-[100px] rounded-full pointer-events-none" />
 
           {!isSubmitted ? (
@@ -152,10 +148,10 @@ export default function Contact() {
                     onChange={(e) => setContactData({ ...contactData, observers: parseInt(e.target.value) || 0 })}
                     className="w-full bg-white/[0.03] text-white border border-white/10 rounded-md px-3.5 py-3 text-xs md:text-sm border-solid"
                   >
-                    <option value={0} className="bg-[#1c130d]">No Observers</option>
-                    <option value={1} className="bg-[#1c130d]">1 Companion Observer</option>
-                    <option value={2} className="bg-[#1c130d]">2 Observers</option>
-                    <option value={3} className="bg-[#1c130d]">3+ Observers</option>
+                    <option value={0} className="bg-[#1c130d] text-white">No Observers</option>
+                    <option value={1} className="bg-[#1c130d] text-white">1 Companion Observer</option>
+                    <option value={2} className="bg-[#1c130d] text-white">2 Observers</option>
+                    <option value={3} className="bg-[#1c130d] text-white">3+ Observers</option>
                   </select>
                 </div>
 
@@ -166,9 +162,9 @@ export default function Contact() {
                     onChange={(e) => setContactData({ ...contactData, lodge: e.target.value })}
                     className="w-full bg-white/[0.03] text-white border border-white/10 rounded-md px-3.5 py-3 text-xs md:text-sm border-solid"
                   >
-                    <option value="Ivorytip Signature Lodge" className="bg-[#1c130d]">Ivorytip Signature Lodge</option>
-                    <option value="Whispering Valleys Couples Retreat" className="bg-[#1c130d]">Whispering Valleys Couples Retreat</option>
-                    <option value="The Secluded Timber Cabin" className="bg-[#1c130d]">The Secluded Timber Cabin</option>
+                    {LODGES_LIST.map((l, i) => (
+                      <option key={i} value={l.name} className="bg-[#1c130d] text-white">{l.name}</option>
+                    ))}
                   </select>
                 </div>
 
@@ -179,10 +175,10 @@ export default function Contact() {
                     onChange={(e) => setContactData({ ...contactData, package: e.target.value })}
                     className="w-full bg-white/[0.03] text-white border border-white/10 rounded-md px-3.5 py-3 text-xs md:text-sm border-solid"
                   >
-                    <option value="The Plains Game Classic" className="bg-[#1c130d]">The Plains Game Classic ($6,500)</option>
-                    <option value="The Ivorytip Signature" className="bg-[#1c130d]">The Ivorytip Signature ($12,500)</option>
-                    <option value="The Monarch Big Game" className="bg-[#1c130d]">The Monarch Big Game ($19,500)</option>
-                    <option value="Custom Bespoke Hunt" className="bg-[#1c130d]">Custom Bespoke Hunt (Flexible)</option>
+                    <option value="The Plains Game Classic" className="bg-[#1c130d] text-white">The Plains Game Classic ($6,500)</option>
+                    <option value="The Ivorytip Signature" className="bg-[#1c130d] text-white">The Ivorytip Signature ($12,500)</option>
+                    <option value="The Monarch Big Game" className="bg-[#1c130d] text-white">The Monarch Big Game ($19,500)</option>
+                    <option value="Custom Bespoke Hunt" className="bg-[#1c130d] text-white">Custom Bespoke Hunt (Flexible)</option>
                   </select>
                 </div>
 
@@ -227,7 +223,7 @@ export default function Contact() {
         <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-[120px]">
           
           {/* Coordinates Map Card */}
-          <div className="bg-[#1c130e] border border-amber-900/30 rounded-2xl p-6 md:p-8 space-y-6 border-solid">
+          <div className="bg-[#1c130e] border border-amber-900/30 rounded-2xl p-6 md:p-8 space-y-6 border-solid shadow-2xl">
             <h4 className="font-display text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
               <Compass className="w-5 h-5 text-amber-400" />
               Outpost Location
@@ -240,7 +236,7 @@ export default function Contact() {
               </div>
               <div className="flex items-center justify-between">
                 <span>Access</span>
-                <span className="font-semibold text-white">2 hours from Port Elizabeth</span>
+                <span className="font-semibold text-white">2 hours from Gqeberha (Port Elizabeth)</span>
               </div>
               <div className="flex items-center justify-between">
                 <span>Sanctuary Elevation</span>
@@ -262,7 +258,7 @@ export default function Contact() {
                 </div>
                 <div className="space-y-1">
                   <span className="text-[10px] uppercase font-bold text-stone-500 block">Satellite Communication</span>
-                  <span className="text-xs text-stone-200 font-mono">+264 (81) 980-0199</span>
+                  <span className="text-xs text-stone-200 font-mono">+27 (41) 980-0199</span>
                 </div>
               </div>
 
