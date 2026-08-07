@@ -835,7 +835,7 @@ export default function Home() {
               >
                 <button
                   onClick={() => setExpandedFaq(expandedFaq === faq.id ? null : faq.id)}
-                  className="w-full p-6 text-left flex items-center justify-between text-white font-sans text-xs md:text-sm font-medium uppercase tracking-[0.15em] cursor-pointer hover:bg-white/[0.01]"
+                  className="w-full p-6 text-left flex items-center justify-between text-white font-sans text-xs md:text-sm font-semibold tracking-wide cursor-pointer hover:bg-white/[0.01]"
                 >
                   <span>{faq.question}</span>
                   <ChevronDown className={`w-4.5 h-4.5 text-amber-400 shrink-0 transition-transform duration-300 ${
