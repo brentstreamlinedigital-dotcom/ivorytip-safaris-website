@@ -28,7 +28,7 @@ export default function LodgeDetail() {
   const { id } = useParams<{ id: string }>();
   const { setInquiryForm, handleNavClick, setActiveModal } = useOutletContext<any>();
 
-  // Fetch lodge details from our modular data, default to Kikuyo Lodge (id 1)
+  // Fetch lodge details from our modular data, default to Kikuyu Lodge (id 1)
   const lodge: Lodge = LODGES[id || "1"] || LODGES["1"];
 
   const handleInquire = () => {
@@ -65,7 +65,7 @@ export default function LodgeDetail() {
         <div className="absolute bottom-1/4 right-10 w-[500px] h-[500px] bg-amber-600/5 blur-[150px] rounded-full pointer-events-none" />
 
         {/* Main Content Block */}
-        <main className="relative z-30 max-w-8xl mx-auto px-8 md:px-12 flex-1 flex flex-col justify-center items-center py-12 md:py-20 text-center w-full min-h-0 pt-32">
+        <main className="relative z-30 max-w-8xl mx-auto px-6 md:px-12 flex-1 flex flex-col justify-center items-center py-12 md:py-20 text-center w-full min-h-0 pt-24 md:pt-32">
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-4 md:space-y-6">
             <Link 
               to="/lodges" 
@@ -102,7 +102,7 @@ export default function LodgeDetail() {
           
           {/* Overview */}
           <div className="space-y-4">
-            <h3 className="font-display text-xl md:text-2xl font-bold text-white uppercase tracking-wider">The Sanctuary</h3>
+            <h3 className="font-display text-xl md:text-2xl font-bold text-white uppercase tracking-wider">The Lodge</h3>
             <div className="h-0.5 w-16 bg-amber-500/50 rounded mb-4" />
             <p className="text-stone-300 text-sm md:text-base font-light leading-relaxed">
               {lodge.overview}
@@ -130,7 +130,7 @@ export default function LodgeDetail() {
 
           {/* Key Amenities */}
           <div className="space-y-6">
-            <h3 className="font-display text-xl md:text-2xl font-bold text-white uppercase tracking-wider">Luxe Wilderness Amenities</h3>
+            <h3 className="font-display text-xl md:text-2xl font-bold text-white uppercase tracking-wider">Wilderness Amenities</h3>
             <div className="h-0.5 w-16 bg-amber-500/50 rounded mb-6" />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

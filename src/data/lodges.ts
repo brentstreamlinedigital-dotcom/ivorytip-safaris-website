@@ -23,6 +23,7 @@ export interface Lodge {
   bedroomImage: string;
   bathroomImage: string;
   lifestyleImage: string;
+  galleryImages?: string[];
   features: string[];
   amenities: LodgeAmenity[];
   tag: string;
@@ -32,66 +33,85 @@ export interface Lodge {
 export const LODGES: Record<string, Lodge> = {
   "1": {
     id: "1",
-    name: "Kikuyo Lodge",
-    location: "Ivorytip Highlands Conservancy, South Africa",
-    tagline: "Colonial opulence meeting the ridge height of the savanna, crafted for custom groups who demand absolute grandeur.",
-    overview: "Kikuyo Lodge is the majestic crown jewel of the Ivorytip conservancy. Anchored into ancient granite ridges, it commands infinite sweeps of the savanna below. This flagship sanctuary features high-thatch vaulted ceilings, handcrafted stone fireplaces, and an open boma dining setup where stories are shared over local vintage wines. Kikuyo is managed exclusively for single hunting parties, guaranteeing complete visual and social isolation.",
-    architecture: "Constructed using locally quarried slate, ironwood columns, and thatch, the lodge blends seamlessly into the ridge. Floor-to-ceiling glass paneling slides open to harness natural breezes, cooling the luxury suites naturally.",
-    capacity: "Up to 12 guests",
-    staffRatio: "2:1 private hosting ratio",
-    poolSpa: "Heated infinity pool overlooking the savanna canyon",
-    powerGrid: "Hybrid solar array with multi-stage mineral water filtration",
-    stargazing: "Elevated stargazing tower with vintage optical telescope",
-    heroImage: "/assets/Main Lodge Internal.jpg",
-    bedroomImage: "/assets/lodge_signature_bedroom.jpg",
-    bathroomImage: "/assets/lodge_signature_dining.jpg",
-    lifestyleImage: "/assets/Dinner.jpg",
+    name: "Kikuyu Lodge",
+    location: "Eastern Cape, South Africa (near Alexandria)",
+    tagline: "Classic 5-star comfort positioned on the high banks of the Bushmans River.",
+    overview: "Kikuyu Lodge is the flagship accommodation of Ivorytip Safaris. Anchored above the Bushmans River, it offers absolute privacy and peaceful views. The lodge features high-thatch vaulted ceilings, handcrafted stone fireplaces, and an open boma dining area. Managed exclusively for single hunting parties, Kikuyu guarantees complete visual and social isolation for you and your companions.",
+    architecture: "Constructed using locally quarried slate, ironwood columns, and traditional thatch roofing, the suites are designed to remain naturally comfortable throughout the year.",
+    capacity: "Up to 4 guests (2 couples)",
+    staffRatio: "Dedicated host, chef, and tracker team",
+    poolSpa: "River View Deck",
+    powerGrid: "Solar-powered array with clean spring water filtration",
+    stargazing: "Fireside boma under clear southern skies",
+    heroImage: "/assets/kikuyu/New lodge Hero.jpg",
+    bedroomImage: "/assets/kikuyu/Sable room 4.jpg",
+    bathroomImage: "/assets/kikuyu/Sable Room Balcony.jpg",
+    lifestyleImage: "/assets/kikuyu/DSC08426.jpg",
+    galleryImages: [
+      "/assets/kikuyu/New lodge Hero.jpg",
+      "/assets/kikuyu/Sable Room Balcony.jpg",
+      "/assets/kikuyu/Sable room 4.jpg",
+      "/assets/kikuyu/DSC08426.jpg",
+      "/assets/kikuyu/DSC08463.jpg",
+      "/assets/kikuyu/DSC08465.jpg",
+      "/assets/kikuyu/DSC08479.jpg",
+      "/assets/kikuyu/DSC08492.jpg",
+      "/assets/kikuyu/DSC08497.jpg"
+    ],
     tag: "Highland Grandeur",
     features: [
       "Exclusive buyout for single hunting groups",
-      "Heated panoramic canyon infinity pool",
-      "Private custom off-road hunting vehicles",
-      "Traditional open boma dining under camelthorn canopies",
-      "Dedicated professional hunter suite wings",
+      "Private balconies overlooking the Bushmans River",
+      "Traditional boma dining area under acacia canopies",
+      "Thatch roof suites (Rhino Room & Sable Room) with en-suite bathrooms",
       "Full gun-room and secure armory storage"
     ],
     amenities: [
-      { name: "Canyon Infinity Pool", desc: "Heated pool hanging over a 200-meter drop.", iconName: "Waves" },
-      { name: "Ancestral Library", desc: "Curated collection of early African hunting diaries and single-malt brandies.", iconName: "Coffee" },
-      { name: "Thatch Vault Suites", desc: "Su suites with freestanding copper tubs and open stone fireplaces.", iconName: "Moon" },
-      { name: "Circular Dining Boma", desc: "Chef-hosted circular fire boma serving aged kudu and gemsbuck steaks.", iconName: "UtensilsCrossed" }
+      { name: "River View Balconies", desc: "Private balconies overlooking the Bushmans River channel.", iconName: "Waves" },
+      { name: "Thatch Roof Suites", desc: "Rhino Room & Sable Room, featuring 5-star comfort and style.", iconName: "Moon" },
+      { name: "En-suite Bathrooms", desc: "Private en-suite bathroom layouts in each room.", iconName: "Sparkles" },
+      { name: "Circular Dining Boma", desc: "Fireside dining boma serving local dishes prepared over open coals.", iconName: "UtensilsCrossed" }
     ]
   },
   "2": {
     id: "2",
     name: "Emanzini Lodge",
-    location: "Secluded Valley Waterways, South Africa",
-    tagline: "An intimate, luxury canvas oasis tucked into secluded valley wetlands, designed for ultimate privacy and wild proximity.",
-    overview: "Emanzini Lodge is nestled adjacent to the natural springs of the private valley floor, visual miles from any other structure. It is a sanctuary of canvas, teak, and water. Slide back the canvas walls to listen to wild kudu drinking at the natural pool just yards from your bed, or relax in the sunken deck watching leopards follow the river tracks. Ideal for companions and couples seeking luxury in pure isolation.",
-    architecture: "Floating wooden decks, double-layered canvas ceilings, and heavy canvas walls that zip completely open. Designed to integrate indoor comforts directly with the wet bushveld habitat.",
-    capacity: "2 to 4 guests (Intimate buyout)",
-    staffRatio: "3:1 private team (Butler, tracker, chef)",
-    poolSpa: "Sunken hot-tub plunge pool on private floating deck",
-    powerGrid: "Off-grid silent battery grid with pure borehole spring water",
-    stargazing: "Retractable sky-roof bed layout for sleeping directly under the stars",
-    heroImage: "/assets/Couples Retreat.jpg",
-    bedroomImage: "/assets/lodge_couples_bedroom.jpg",
-    bathroomImage: "/assets/lodge_couples_bathroom.jpg",
-    lifestyleImage: "/assets/campfire.jpg",
+    location: "Eastern Cape, South Africa (near Alexandria)",
+    tagline: "An intimate valley retreat, perfect for groups, families, and weddings.",
+    overview: "Emanzini Lodge is nestled in a secluded valley, surrounded by open wetlands. Featuring a main lodge with 4 comfortable rooms and 3 private chalets, the camp offers an intimate wilderness experience where wildlife frequently comes up to the fence. The lodge is decorated with traditional taxidermy and rugs, and features an indoor braai built directly into the main dining table.",
+    architecture: "A combination of wood, stone, and canvas structures designed to provide standard modern comforts in a classic valley setting.",
+    capacity: "Up to 14 guests (3 chalets & 4 rooms, hosting 7 couples)",
+    staffRatio: "Dedicated host, chef, and tracker team",
+    poolSpa: "Sunken plunge pool on fireside deck",
+    powerGrid: "Solar-powered battery backup with borehole spring water",
+    stargazing: "Open fireside deck and outdoor lounge",
+    heroImage: "/assets/emanzini/Emanzini Internal.jpg",
+    bedroomImage: "/assets/emanzini/Emanzini Chalet 2.jpg",
+    bathroomImage: "/assets/emanzini/Emanzini Chalet 3.jpg",
+    lifestyleImage: "/assets/emanzini/DSC09076.jpg",
+    galleryImages: [
+      "/assets/emanzini/Emanzini Internal.jpg",
+      "/assets/emanzini/Emanzini Chalet 2.jpg",
+      "/assets/emanzini/Emanzini Chalet 3.jpg",
+      "/assets/emanzini/DSC09076.jpg",
+      "/assets/emanzini/DSC09092.jpg",
+      "/assets/emanzini/DSC09110.jpg",
+      "/assets/emanzini/DSC09127.jpg",
+      "/assets/emanzini/DSC09136.jpg"
+    ],
     tag: "Lakeside Solitude",
     features: [
-      "Total visual isolation in private valley coordinates",
-      "Retractable stargazing bedroom canvas panels",
-      "Sunken plunge pool and fireside deck directly on the stream",
-      "Open-air copper rain showers under acacia branches",
-      "Private guide and specialized tracker for walking safaris",
-      "Chef-prepared bush picnic tables set up on remote ridges"
+      "Perfect for group buyouts, families, and weddings",
+      "3 private chalets and 4 main lodge rooms (hosting up to 7 couples)",
+      "Indoor braai built directly into the dining table",
+      "Wildlife frequently viewing right at the camp fence",
+      "Specialized tracker for walking and tracking safaris"
     ],
     amenities: [
-      { name: "Sunken Wetland Tub", desc: "Sunken hot tub on a floating teak deck.", iconName: "Waves" },
-      { name: "Valley Plunge Pool", desc: "Duo plunge pool fed by natural spring water.", iconName: "Sparkles" },
-      { name: "Sky-View Bed", desc: "King-size bed aligned under clear canopy inserts for raw stargazing.", iconName: "Moon" },
-      { name: "Private Table Boma", desc: "Intimate two-seat dining boma beside the valley river.", iconName: "UtensilsCrossed" }
+      { name: "3 Private Chalets", desc: "Comfortable private chalets, each hosting a couple.", iconName: "Moon" },
+      { name: "4 Main Lodge Rooms", desc: "4-star rooms inside the main lodge, supporting couples.", iconName: "Sparkles" },
+      { name: "Indoor Dining Braai", desc: "Traditional braai built directly into the dining table setup.", iconName: "UtensilsCrossed" },
+      { name: "Plunge Pool Deck", desc: "Plunge pool on the deck with open views of the valley.", iconName: "Waves" }
     ]
   }
 };

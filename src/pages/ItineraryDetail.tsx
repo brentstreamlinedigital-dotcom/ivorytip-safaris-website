@@ -29,100 +29,103 @@ interface ItineraryData {
 
 const ITINERARIES: Record<string, ItineraryData> = {
   "1": {
-    title: "The Plains Game Classic",
-    price: "$6,500",
-    duration: "5 Days / 4 Nights",
-    lodge: "Whispering Valleys Couples Retreat",
-    species: "1x Kudu, 1x Wildebeest, 1x Impala",
-    tag: "Classic Adventure",
+    title: "The Plains Game Starter",
+    price: "$4,100 (1:1) / $3,600 (2:1)",
+    duration: "6 Days / 5 Nights",
+    lodge: "Kikuyu Lodge",
+    species: "1x Impala, 1x Blesbuck, 1x Blue Wildebeest, 1x Warthog",
+    tag: "Introductory Stalk",
     heroImage: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=1600&q=90",
-    overview: "Designed for hunters seeking the quintessential South African plains game experience. Across 80,000 hectares of private conservancy, you will track and harvest three signature African species under the guidance of our veteran trackers.",
+    overview: "Designed for hunters seeking the quintessential South African plains game experience. Across 10,000+ hectares of private Eastern Cape conservancy, you will stalk and harvest four signature plains game species under the guidance of our veteran professional hunter Andre Crous and his expert tracking team.",
     days: [
-      { day: 1, title: "Arrival & Sight-In", desc: "Airport reception and luxury transfer to Whispering Valleys. Settle into your valley villa followed by rifle check and sight-in at our private range.", activity: "Fireside briefing & sundowner spirits" },
-      { day: 2, title: "First Light Stalk (Impala & Wildebeest)", desc: "Depart before dawn to track blue wildebeest herds through camelthorn valleys. Afternoon pursuit of common impala.", activity: "Traditional wild game braai dinner" },
-      { day: 3, title: "The Kudu Chase", desc: "Devote the day to stalking the elusive 'Grey Ghost' of the bush - the Greater Kudu. Track through thick brush and dry riverbeds.", activity: "Valley-top stargazing session" },
-      { day: 4, title: "Trophy Stalking & Field Prep", desc: "Additional stalking window to secure targets. Afternoon hands-on session with master skinners observing trophy field dressing.", activity: "Sommelier wine-paired reserve dinner" },
-      { day: 5, title: "Farewell & Transfer", desc: "Final early morning game drive. Brunch at the manor and private shuttle transfer back to Port Elizabeth Airport.", activity: "Trophy certification ceremony" }
+      { day: 1, title: "Arrival & Sight-In", desc: "Airport reception at Chief Dawid Stuurman Int'l (Port Elizabeth) and private transfer to Kikuyu Lodge. Settle into your stone chalet followed by rifle check and sight-in at our private range. Andre will brief you on the terrain and safety.", activity: "Fireside briefing & welcome drinks" },
+      { day: 2, title: "First Light Stalk (Impala)", desc: "Depart before dawn to scout valley bushveld pockets for trophy impala. Walk-and-stalk tactics matching wind thermals — the only way we hunt at Ivorytip.", activity: "Wild game braai dinner" },
+      { day: 3, title: "Tracking the Blesbuck", desc: "Track blesbuck herds across the open grassy ridges. A physical stalk testing hunter patience and shot placement.", activity: "Boma storytelling & drinks" },
+      { day: 4, title: "Blue Wildebeest Pursuit", desc: "Stalk blue wildebeest herds across open grassland valleys. Work scent lines with the tracking team.", activity: "Scenic lunch stop — Knife's Edge viewpoint" },
+      { day: 5, title: "Warthog Walk-Up Hunt", desc: "Scout active watering holes and riverbank tracks to secure a trophy warthog. Close-range stalking in dense riverside bush.", activity: "God's Eye picnic lunch" },
+      { day: 6, title: "Farewell & Transfer", desc: "Early morning breakfast. Trophy cataloging with our skinner, then private shuttle transfer back to Port Elizabeth Airport.", activity: "Final team send-off" }
     ],
     inclusions: [
-      "1:1 professional hunter guide ratio",
-      "All trackings and specialized hunting vehicles",
-      "Field dressing, caping, and salting of trophies",
-      "Luxury valley villa with private plunge pool",
-      "All gourmet meals, premium wines, and spirits",
-      "Port Elizabeth return transfers"
+      "Airport Pick-up / Drop-off (Port Elizabeth)",
+      "Dedicated Professional Hunter & Tracker",
+      "Luxury Lodging — Kikuyu Lodge",
+      "3 Meals per Day, Light Beverages & Laundry",
+      "Skinner & Field Preparation of Trophies"
     ],
     exclusions: [
-      "International flights and travel insurance",
-      "Trophy dip & pack services",
-      "Gratuities for skinners and trackers",
-      "Rifle hire and ammunition (available on site)"
+      "Rifle Hire & Ammunition",
+      "Gratuities / Tips for PH, Tracker & Camp Staff",
+      "International Flights & Travel Insurance",
+      "Trophy Dip, Pack & Shipping / Export Services"
     ]
   },
   "2": {
-    title: "The Ivorytip Signature",
-    price: "$12,500",
+    title: "The Savanna Classic",
+    price: "$5,900 (1:1) / $5,300 (2:1)",
     duration: "7 Days / 6 Nights",
-    lodge: "Ivorytip Signature Lodge",
-    species: "1x Eland, 1x Oryx, 1x Zebra, 1x Bushbuck",
+    lodge: "Kikuyu Lodge",
+    species: "1x Impala, 1x Blesbuck, 1x Kudu, 1x Blue Wildebeest, 1x Springbuck",
     tag: "Most Popular",
     heroImage: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1600&q=90",
-    overview: "Our flagship signature expedition, combining massive plains game variety with the absolute height of colonial opulence. Target South Africa's most grand and spirited trophies while enjoying five-star butler service.",
+    overview: "Our flagship expedition combining maximum plains game variety with the height of Eastern Cape wilderness. Target five premier African species, including the elusive Kudu, while enjoying Kikuyu Lodge's famous boma hospitality.",
     days: [
-      { day: 1, title: "Airfield Fly-In & Welcome", desc: "Fly-in conservancy charter transfer to Signature Lodge. Champagne reception and afternoon rifle checks.", activity: "Fine dining 5-course welcome feast" },
-      { day: 2, title: "The Cape Eland Pursuit", desc: "Hunt the giant Cape Eland, stalking the massive tracks across Eastern Cape valley hills. Requires patience and high caliber rifles.", activity: "Vintage library brandy tasting" },
-      { day: 3, title: "Stalking the Kalahari Gemsbuck", desc: "Chase the striking Oryx (Gemsbuck) through thornveld ridges. Known for keen eyesight and fierce defensive horns.", activity: "Boma fire pit storytelling" },
-      { day: 4, title: "Hartmann's Zebra Search", desc: "Venture into rugged mountain terrain tracking wild zebra. A physical, rewarding chase testing tracker endurance.", activity: "Heated infinity pool sunset swim" },
-      { day: 5, title: "Sunrise Balloon & Bushbuck Hunt", desc: "Floating hot air balloon sunrise safari. Afternoon riverbed tracking targeting the sly, compact bushbuck.", activity: "Savanna bush buffet under acacia canopies" },
-      { day: 6, title: "Trophy Preservation & Luxury Rest", desc: "Consult with master skinners on export logistics. Afternoon spa treatments and relaxation.", activity: "Champagne dinner celebration" },
-      { day: 7, title: "Charter Return", desc: "Morning photography game drive. Departure via private conservancy charter flight.", activity: "Final field trackers blessing" }
+      { day: 1, title: "Airport Reception & Transfer", desc: "Airport reception and private transfer to Kikuyu Lodge. Settle into your stone chalet and conduct sight-in checks at the range. Meet Andre and the tracking team.", activity: "Sundowners & dinner feast" },
+      { day: 2, title: "Blue Wildebeest Pursuit", desc: "Stalk blue wildebeest herds across open grassland valleys. Work scent lines with the tracking team.", activity: "Fireside drinks" },
+      { day: 3, title: "The Grey Ghost Chase (Kudu)", desc: "Devote the day to stalking the majestic Kudu in thick ridge brushes and deep ravines. The highlight of the classic package.", activity: "Knife's Edge scenic drive & potjie dinner" },
+      { day: 4, title: "Blesbuck Ridge Tracking", desc: "Scout elevated ridge paths to track and harvest a trophy blesbuck. Physical walking and patience.", activity: "God's Eye hilltop lunch" },
+      { day: 5, title: "Impala Stalk & Valley Scouting", desc: "Active walk-and-stalk targeting trophy impala in thornveld country.", activity: "Wine & cheese at the lodge" },
+      { day: 6, title: "Springbuck Plains", desc: "Cross the open flats to target Springbuck — fast, challenging, and rewarding. Your final trophy of the expedition.", activity: "Farewell boma dinner" },
+      { day: 7, title: "Lodge Departure", desc: "Morning breakfast. Final trophy checks, checkout, and transfer to Port Elizabeth airport.", activity: "Trackers farewell" }
     ],
     inclusions: [
-      "Senior professional hunter guide & tracker team",
-      "gltf-equipped luxury tracking cruisers",
-      "5-star private butler & gourmet chef services",
-      "Custom rifle caliber hire (.300 Win Mag) & ammo",
-      "Full taxidermy export handling & admin permit prep",
-      "Private air-charter transfers to conservancy"
+      "Airport Pick-up / Drop-off (Port Elizabeth)",
+      "Dedicated Professional Hunter & Tracker",
+      "Luxury Lodging — Kikuyu Lodge",
+      "3 Meals per Day, Light Beverages & Laundry",
+      "Skinner & Field Preparation of Trophies",
+      "Includes 1 free cull Impala or Warthog"
     ],
     exclusions: [
-      "Global trophy shipping & taxidermy mounting fees",
-      "Personal items & gratuities",
-      "Optional helicopter excursions"
+      "Rifle Hire & Ammunition",
+      "Gratuities / Tips for PH, Tracker & Camp Staff",
+      "International Flights & Travel Insurance",
+      "Trophy Dip, Pack & Shipping / Export Services"
     ]
   },
   "3": {
-    title: "The Monarch Big Game",
-    price: "$19,500",
-    duration: "10 Days / 9 Nights",
-    lodge: "The Secluded Timber Cabin",
-    species: "1x Cape Buffalo, 1x Waterbuck, 1x Blue Wildebeest, 1x Warthog",
-    tag: "Ultimate Signature",
+    title: "The Big Game Monarch",
+    price: "$20,000 (1:1) / $19,000 (2:1)",
+    duration: "11 Days / 10 Nights",
+    lodge: "Emanzini Lodge",
+    species: "1x Buffalo Bull (Under 38\"), 1x Kudu, 1x Blue Wildebeest, 1x Zebra, 1x Blesbuck, 1x Impala",
+    tag: "Ultimate Safari",
     heroImage: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1600&q=90",
-    overview: "The ultimate big game expedition, centered on the dangerous Cape Buffalo. Spend ten days in the wild Eastern Cape highland thickets alongside an elite tracking crew and tracking canines for a legendary hunt.",
+    overview: "The ultimate big game quest, targeting the legendary Cape Buffalo alongside five supporting plains game species. Live the classic African narrative with sole-use wetland lodge luxury.",
     days: [
-      { day: 1, title: "Highland Outpost Arrival", desc: "Off-grid timber cabin reception. High-caliber double rifle check and safety briefings for dangerous big game.", activity: "Sunset ridge champagne sundowners" },
-      { day: 2, title: "Buffalo Tracking: First Stalk", desc: "Enter buffalo territory. Tracking dung and riverbed tracks, getting close-range prints of old bull groups.", activity: "Outpost wood-fired hot tub soak" },
-      { day: 3, title: "The Cape Buffalo Harvest", desc: "Stalk and secure your primary target bull under dense acacia cover. Requires ultimate discipline and guide synchronization.", activity: "Trophy toast & fireside tracking debrief" },
-      { day: 4, title: "Waterbuck Stalking", desc: "Track the waterbuck along riverbank reeds. A beautiful and heavy trophy animal.", activity: "Private Sommelier reserve tasting" },
-      { day: 5, title: "Blue Wildebeest Tracking", desc: "Expedition through plains grasslands tracking blue wildebeest. Fast-paced stalking maneuvers.", activity: "Gourmet wild game braai" },
-      { day: 6, title: "Wild Warthog Pursuits", desc: "Track warthogs near savanna watering holes. Fast target acquisition stalk.", activity: "Stargazing and lunar photography class" },
-      { day: 7, title: "Canine Tracking Demo", desc: "Witness search and tracking dogs work scent trails in dense brush fields.", activity: "Specialist hunter field notes seminar" },
-      { day: 8, title: "Photographer Overlay", desc: "A full-day safari with our resident field photographer capturing custom safari portraits.", activity: "Customized digital memory book reveal" },
-      { day: 9, title: "Taxidermy Administration", desc: "Select mounts, packing guidelines, and coordinate export logistics with administrative teams.", activity: "Farewell hunters gala dinner" },
-      { day: 10, title: "Helicopter Transfer Departure", desc: "Morning helicopter charter out of the highlands to the main airport hub.", activity: "Final tracking team salute" }
+      { day: 1, title: "Lodge Welcome", desc: "Airport pickup and private transfer to Emanzini River Lodge. Safety briefings and ballistic sight-in checking.", activity: "Sunset river deck welcome drinks" },
+      { day: 2, title: "Cape Buffalo: Spoor Patrol", desc: "Scout river tracks and active dung paths to map the movement of the heavy buffalo herds.", activity: "Traditional boma woodfire dinner" },
+      { day: 3, title: "The Buffalo Bull Stalk", desc: "Track and harvest your Cape Buffalo bull (under 38\") in deep thorn thickets. Intense adrenaline stalk.", activity: "Champagne trophy toast celebration" },
+      { day: 4, title: "Greater Kudu Stalking", desc: "Pursue the ghost-like kudu along the rocky ridges of the conservancy.", activity: "Sommelier private reserve pairings" },
+      { day: 5, title: "Blue Wildebeest Chase", desc: "Stalk herds of blue wildebeest across acacia grasslands.", activity: "Gourmet wild game braai" },
+      { day: 6, title: "Zebra Ridge Track", desc: "Track wild zebra herds in challenging highland terrain. Physical stalking.", activity: "Stargazing and telescopes setup" },
+      { day: 7, title: "Blesbuck & Impala Pursuit", desc: "Secure the remaining trophies, tracking common impala and blesbuck in savanna zones.", activity: "Riverbend sundowner drinks" },
+      { day: 8, title: "Wetland River Cruise", desc: "Rest day featuring private river boating, photography, and wildlife observation.", activity: "Freshwater river crab dinner" },
+      { day: 9, title: "Stewardship Walk", desc: "Explore anti-poaching security borders with conservancy rangers.", activity: "Lodge chef specialty feast" },
+      { day: 10, title: "Taxidermy Admin & Spa", desc: "Review mounting specs with skinners and coordinate admin. Afternoon spa relaxation.", activity: "Farewell hunters gala dinner" },
+      { day: 11, title: "Conservancy Departure", desc: "Checkout, final packing, and private transport shuttle to Port Elizabeth airport.", activity: "Final tracking team salute" }
     ],
     inclusions: [
-      "Elite native tracking team & canine units",
-      "Helicopter fly-in conservancy transfers",
-      "Double rifle caliber hire (.375 H&H / .416 Rigby)",
-      "Private Sommelier reserve wine pairings",
-      "Professional field photographer overlay",
-      "Off-grid natural timber cabin luxury buyout"
+      "Airport Pick-up / Drop-off (Port Elizabeth)",
+      "Dedicated Professional Hunter & Tracker",
+      "Luxury Lodging — Emanzini Lodge",
+      "3 Meals per Day, Light Beverages & Laundry",
+      "Skinner, Field Preparation & Trophy Export Admin"
     ],
     exclusions: [
-      "Crating & shipping fees to final global destination",
-      "Personal guide gratuities"
+      "Rifle Hire & Ammunition",
+      "Gratuities / Tips for PH, Tracker & Camp Staff",
+      "International Flights & Travel Insurance",
+      "Trophy Dip, Pack & Shipping / Export Services"
     ]
   }
 };
@@ -168,14 +171,14 @@ export default function ItineraryDetail() {
         <div className="absolute bottom-1/4 right-10 w-[500px] h-[500px] bg-amber-600/5 blur-[150px] rounded-full pointer-events-none" />
 
         {/* Main Content Block */}
-        <main className="relative z-30 max-w-8xl mx-auto px-8 md:px-12 flex-1 flex flex-col justify-center items-center py-12 md:py-20 text-center w-full min-h-0 pt-32">
+        <main className="relative z-30 max-w-8xl mx-auto px-6 md:px-12 flex-1 flex flex-col justify-center items-center py-12 md:py-20 text-center w-full min-h-0 pt-24 md:pt-32">
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-4 md:space-y-6">
             <Link 
               to="/" 
               className="inline-flex items-center gap-2 text-stone-400 hover:text-amber-400 text-xs uppercase font-bold tracking-widest transition-colors mb-2 md:mb-4"
             >
               <ArrowLeft className="w-4 h-4" />
-              Back to Journeys
+              Back to Hunts
             </Link>
             <span className="text-amber-200/90 text-xs md:text-sm tracking-[0.6em] font-medium uppercase block">
               {itinerary.tag}
@@ -320,7 +323,7 @@ export default function ItineraryDetail() {
                 <span className="font-mono font-medium text-white">1:1 Hunter to Guide</span>
               </div>
               <div className="flex items-center justify-between">
-                <span>Sanctuary stay</span>
+                <span>Lodge stay</span>
                 <span className="font-mono font-medium text-amber-200">Luxury Base Lodge</span>
               </div>
             </div>

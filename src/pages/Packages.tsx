@@ -12,10 +12,38 @@ import {
   Compass,
   Info,
   Calendar,
-  Sparkles
+  Sparkles,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { HUNTING_STEPS } from "../data/hunting";
+
+const flipVariants = {
+  initial: (dir: number) => ({
+    rotateY: dir > 0 ? 80 : -80,
+    opacity: 0,
+    scale: 0.95
+  }),
+  animate: {
+    rotateY: 0,
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut"
+    }
+  },
+  exit: (dir: number) => ({
+    rotateY: dir > 0 ? -80 : 80,
+    opacity: 0,
+    scale: 0.95,
+    transition: {
+      duration: 0.4,
+      ease: "easeIn"
+    }
+  })
+};
 
 interface SpeciesSelection {
   species: string;
@@ -44,61 +72,88 @@ export default function Packages() {
   const [selectedSpecies, setSelectedSpecies] = useState<SpeciesSelection[]>([]);
   const [stayNights, setStayNights] = useState(7);
   const [hunterCount, setHunterCount] = useState(1);
+  const [activeStepIdx, setActiveStepIdx] = useState(0);
+  const [direction, setDirection] = useState(0);
+
 
   const packages = [
     {
       id: "1",
-      title: "The Plains Game Classic",
-      price: "$6,500",
-      duration: "5 Days / 4 Nights",
-      lodge: "Kikuyo Lodge",
-      species: "1x Kudu, 1x Wildebeest, 1x Impala",
+      title: "The Plains Game Starter",
+      price: "$4,100",
+      rate2to1: "$3,600",
+      bonusNote: "Includes 1 free cull Warthog",
+      duration: "6 Days / 5 Nights",
+      lodge: "Kikuyu Lodge",
+      species: "1x Impala, 1x Blesbuck, 1x Blue Wildebeest, 1x Warthog",
       features: [
-        "1:1 professional hunter guide ratio",
-        "Elite off-road tracking vehicle",
-        "Gourmet wild game bush feasts",
-        "Field dressing & caping preparation",
-        "Airport return shuttle (Port Elizabeth)"
+        "Airport Pick-up & Drop-off (Port Elizabeth)",
+        "Dedicated Professional Hunter & Tracker",
+        "Luxury Lodge Lodging (Kikuyu Lodge)",
+        "3 Meals per Day, Light Beverages & Laundry",
+        "Skinner & Field Preparation"
       ],
-      tag: "Classic Adventure"
+      excluded: [
+        "Rifle Hire & Ammunition",
+        "Gratuities / Tips",
+        "International Flights & Travel Insurance",
+        "Trophy Dip, Pack & Shipping"
+      ],
+      tag: "Introductory Stalk"
     },
     {
       id: "2",
-      title: "The Ivorytip Signature",
-      price: "$12,500",
+      title: "The Savanna Classic",
+      price: "$5,900",
+      rate2to1: "$5,300",
+      bonusNote: "Includes 1 free cull Impala or Warthog",
       duration: "7 Days / 6 Nights",
-      lodge: "Kikuyo Lodge",
-      species: "1x Eland, 1x Oryx, 1x Zebra, 1x Bushbuck",
+      lodge: "Kikuyu Lodge",
+      species: "1x Impala, 1x Blesbuck, 1x Kudu, 1x Blue Wildebeest, 1x Springbuck",
       features: [
-        "Senior professional tracker & master skinners",
-        "Custom rifle caliber hire (.300 Win Mag)",
-        "5-star private butler & gourmet chef",
-        "Full taxidermy export handling & admin",
-        "Hot-air balloon sunrise champagne tour"
+        "Airport Pick-up & Drop-off (Port Elizabeth)",
+        "Dedicated Professional Hunter & Tracker",
+        "Luxury Lodge Lodging (Kikuyu Lodge)",
+        "3 Meals per Day, Light Beverages & Laundry",
+        "Skinner & Field Preparation"
+      ],
+      excluded: [
+        "Rifle Hire & Ammunition",
+        "Gratuities / Tips",
+        "International Flights & Travel Insurance",
+        "Trophy Dip, Pack & Shipping"
       ],
       tag: "Most Popular",
       featured: true
     },
     {
       id: "3",
-      title: "The Monarch Big Game",
-      price: "$19,500",
-      duration: "10 Days / 9 Nights",
+      title: "The Big Game Monarch",
+      price: "$20,000",
+      rate2to1: "$19,000",
+      bonusNote: undefined,
+      duration: "11 Days / 10 Nights",
       lodge: "Emanzini Lodge",
-      species: "1x Cape Buffalo, 1x Waterbuck, 1x Blue Wildebeest, 1x Warthog",
+      species: "1x Buffalo Bull (Under 38\"), 1x Kudu, 1x Blue Wildebeest, 1x Zebra, 1x Blesbuck, 1x Impala",
       features: [
-        "Legendary native tracking team & canine units",
-        "Helicopter fly-in conservancy transfers",
-        "Private Sommelier reserve wine pairings",
-        "Professional field photographer overlay",
-        "Global custom trophy export logistics"
+        "Airport Pick-up & Drop-off (Port Elizabeth)",
+        "Dedicated Professional Hunter & Tracker",
+        "Luxury Lodge Lodging (Emanzini Lodge)",
+        "3 Meals per Day, Light Beverages & Laundry",
+        "Skinner, Field Preparation & Trophy Export Admin"
       ],
-      tag: "Ultimate Signature"
+      excluded: [
+        "Rifle Hire & Ammunition",
+        "Gratuities / Tips",
+        "International Flights & Travel Insurance",
+        "Trophy Dip, Pack & Shipping"
+      ],
+      tag: "Ultimate Safari"
     }
   ];
 
   // Calculator Math
-  // Daily guide rates: $380/day for 1 hunter, $300/day/hunter for 2+ hunters
+  // Daily guide rates: $380/client (1:1) · $300/client (2:1) — non-package hunts
   const dailyRate = hunterCount === 1 ? 380 : 300;
   const totalDailyFees = dailyRate * stayNights * hunterCount;
   const totalTrophyFees = selectedSpecies.reduce((acc, curr) => acc + curr.price, 0);
@@ -127,7 +182,7 @@ export default function Packages() {
       name: "",
       email: "",
       package: "Custom Bespoke Hunt",
-      lodge: "Kikuyo Lodge",
+      lodge: "Kikuyu Lodge",
       message: `Bespoke calculator planning draft:\n- Duration: ${stayNights} Nights\n- Hunters: ${hunterCount}\n- Estimated Price: $${totalEstimate.toLocaleString()}\n- Species: ${speciesText}`
     });
     handleNavClick("cta-section");
@@ -142,7 +197,7 @@ export default function Packages() {
         {/* Background Image Container */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
-            src="/assets/hero_bg.jpg" 
+            src="/assets/packages_hero_new.jpg" 
             alt="Ivorytip Safari Packages" 
             className="w-full h-full object-cover brightness-[0.4] scale-105 origin-center" 
           />
@@ -156,12 +211,12 @@ export default function Packages() {
         <div className="absolute bottom-1/4 right-10 w-[500px] h-[500px] bg-amber-600/5 blur-[150px] rounded-full pointer-events-none" />
 
         {/* Main Content Block */}
-        <main className="relative z-30 max-w-8xl mx-auto px-8 md:px-12 flex-1 flex flex-col justify-center items-center py-12 md:py-20 text-center w-full min-h-0 pt-32">
-          <div className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-4 md:space-y-6">
+        <main className="relative z-30 max-w-8xl mx-auto px-6 md:px-12 flex-1 flex flex-col justify-center items-center py-12 md:py-20 text-center w-full min-h-0 pt-24 md:pt-32">
+          <div className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-3 md:space-y-6">
             <span className="text-amber-200/90 text-xs md:text-sm tracking-[0.6em] font-medium uppercase block">
               Safari Expeditions
             </span>
-            <h2 className="font-sans text-4xl sm:text-6xl md:text-7xl font-bold tracking-[0.12em] text-white uppercase drop-shadow-2xl leading-none">
+            <h2 className="font-sans text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[0.06em] md:tracking-[0.12em] text-white uppercase drop-shadow-2xl leading-none">
               Trophies & Packages
             </h2>
             <p className="text-stone-300 text-xs md:text-sm font-light tracking-wide max-w-xl mx-auto leading-relaxed">
@@ -219,10 +274,22 @@ export default function Packages() {
                   <h3 className="font-sans text-xl md:text-2xl font-bold text-white leading-tight uppercase">
                     {pkg.title}
                   </h3>
-                  <div className="flex items-baseline gap-2 mt-4">
-                    <span className="text-3xl md:text-4xl font-bold text-amber-400 font-mono">{pkg.price}</span>
-                    <span className="text-xs text-stone-400 uppercase font-bold tracking-wider">Base Rate</span>
+                  <div className="flex flex-col gap-1.5 mt-4">
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-2xl md:text-3xl font-bold text-amber-400 font-mono">{pkg.price}</span>
+                      <span className="text-[9px] text-stone-400 uppercase font-bold tracking-wider">1:1 Hunter / PH</span>
+                    </div>
+                    <div className="flex justify-between items-baseline border-t border-white/5 pt-1.5">
+                      <span className="text-xl md:text-2xl font-bold text-amber-400/80 font-mono">{pkg.rate2to1}</span>
+                      <span className="text-[9px] text-stone-500 uppercase font-bold tracking-wider">2:1 Hunter / PH</span>
+                    </div>
+                    <span className="text-[9px] text-stone-600 font-light block">Per person</span>
                   </div>
+                  {pkg.bonusNote && (
+                    <div className="mt-3 px-3 py-1.5 bg-amber-500/10 border border-amber-500/20 rounded text-[9px] text-amber-300 font-bold uppercase tracking-wide">
+                      🎁 {pkg.bonusNote}
+                    </div>
+                  )}
                 </div>
 
                 <div className="h-px bg-white/10" />
@@ -234,7 +301,7 @@ export default function Packages() {
                   </div>
                   <div className="flex items-center gap-2 text-xs text-stone-300 font-medium">
                     <Coffee className="w-4 h-4 text-amber-400 shrink-0" />
-                    <span>Lodge Sanctuary: {pkg.lodge}</span>
+                    <span>Lodge: {pkg.lodge}</span>
                   </div>
                   <div className="bg-black/35 p-3 rounded border border-amber-900/10 mt-2 border-solid">
                     <span className="text-[9px] uppercase text-amber-400 font-bold tracking-wider block mb-1">Included Trophies:</span>
@@ -242,12 +309,24 @@ export default function Packages() {
                   </div>
                 </div>
 
-                <div className="space-y-3 pt-2">
-                  <span className="text-[9px] uppercase tracking-wider text-stone-400 font-bold block">Expedition Details</span>
+                {/* Included */}
+                <div className="space-y-2 pt-1">
+                  <span className="text-[9px] uppercase tracking-wider text-stone-400 font-bold block">Included</span>
                   {pkg.features.map((feature, fIdx) => (
                     <div key={fIdx} className="flex items-start gap-2.5 text-xs text-stone-300">
                       <Check className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
                       <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Excluded */}
+                <div className="space-y-2 pt-1 border-t border-white/5">
+                  <span className="text-[9px] uppercase tracking-wider text-stone-500 font-bold block">Not Included</span>
+                  {pkg.excluded.map((item, eIdx) => (
+                    <div key={eIdx} className="flex items-start gap-2.5 text-xs text-stone-500">
+                      <span className="text-stone-600 shrink-0 mt-0.5 text-xs">✕</span>
+                      <span>{item}</span>
                     </div>
                   ))}
                 </div>
@@ -261,7 +340,7 @@ export default function Packages() {
                       email: "",
                       package: pkg.title,
                       lodge: pkg.lodge,
-                      message: `Inquiring about package style: ${pkg.title}.`
+                      message: `Inquiring about package: ${pkg.title}.`
                     });
                     handleNavClick("cta-section");
                   }}
@@ -283,62 +362,175 @@ export default function Packages() {
             </div>
           ))}
         </div>
+
+        {/* Build Your Own — 4th option */}
+        <div className="mt-12 bg-gradient-to-br from-[#0f0b08] to-[#1a120c] border border-amber-900/20 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="space-y-3 max-w-2xl">
+            <span className="text-[10px] uppercase font-bold tracking-widest text-amber-400 block">Tailor-Made</span>
+            <h3 className="font-sans text-2xl md:text-3xl font-bold text-white uppercase tracking-tight">Build Your Own Safari</h3>
+            <p className="text-stone-400 text-sm font-light leading-relaxed">
+              Choose from our full 70+ species price list. As premier hunting outfitters in South Africa, we design custom hunting trips in South Africa, Botswana, Namibia, and Zimbabwe. Daily rates are <span className="text-amber-300 font-medium">$380/day (1:1)</span> or <span className="text-amber-300 font-medium">$300/day per client (2:1)</span>. Andre will build a custom itinerary around your target species and budget.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {["Cape Buffalo", "Greater Kudu", "Sable", "Eland", "Oryx", "Zebra", "Waterbuck", "+ 60 more"].map(s => (
+                <span key={s} className="text-[9px] bg-white/5 border border-white/10 text-stone-400 px-2 py-1 rounded font-mono uppercase">{s}</span>
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col gap-3 shrink-0">
+            <button
+              onClick={() => {
+                setInquiryForm({
+                  name: "",
+                  email: "",
+                  package: "Build Your Own — Tailor-Made Safari",
+                  lodge: "To be confirmed",
+                  message: "I'd like to build a custom safari package. Please share the full species price list and available dates."
+                });
+                handleNavClick("cta-section");
+              }}
+              className="bg-amber-400 hover:bg-amber-500 text-[#110c08] font-bold py-3.5 px-10 rounded-lg tracking-wider text-xs uppercase cursor-pointer transition-colors whitespace-nowrap"
+            >
+              Start Planning
+            </button>
+            <span className="text-[9px] text-stone-500 text-center uppercase tracking-wide">No obligation · Response within 24hrs</span>
+          </div>
+        </div>
       </section>
 
-      {/* 2. 10-Step Hunting Timeline Experience (Major Redesign / Immersive Storytelling) */}
+      {/* 2. What To Expect On Your Hunt Section */}
       <section className="w-full bg-[#120e0a] border-y border-amber-900/10 py-24 px-6 lg:px-12 text-left z-20">
-        <div className="max-w-7xl mx-auto space-y-16">
-          <div className="text-center max-w-2xl mx-auto space-y-4">
-            <span className="text-xs uppercase tracking-[0.5em] text-amber-400 font-bold block">Choreographed Journey</span>
-            <h3 className="font-display text-2xl md:text-4xl font-bold text-white uppercase tracking-tight">The 10-Step Safari Experience</h3>
-            <p className="text-stone-400 text-xs md:text-sm font-light leading-relaxed">
-              We separate true hunting from commercial outfitting. Read the chronicle of your stalk spoor, from initial caliber consultations to the final boma feast.
+        <div className="max-w-7xl mx-auto space-y-12">
+          
+          {/* Header (Consistent with About/Lodges/Home headings) */}
+          <div className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-4 md:space-y-6">
+            <span className="text-amber-200/90 text-xs md:text-sm tracking-[0.6em] font-medium uppercase block">
+              Hunting Overview
+            </span>
+            <h3 className="font-sans text-3xl sm:text-5xl md:text-6xl font-bold tracking-[0.12em] text-white uppercase drop-shadow-2xl leading-none">
+              What To Expect On Your Hunt
+            </h3>
+            <p className="text-stone-300 text-xs md:text-sm font-light tracking-wide max-w-xl mx-auto leading-relaxed">
+              From your initial video call and rifle setup to days spent tracking in the veld and evenings around the braai fire, here is how your safari unfolds.
             </p>
           </div>
 
-          <div className="relative border-l border-amber-500/10 ml-4 md:ml-1/2 space-y-16 py-8">
+          {/* Clean Horizontal Tab Navigation (Matching site card button design) */}
+          <div className="bg-[#1c130e] border border-white/10 rounded-2xl p-3 flex overflow-x-auto gap-2 text-xs font-bold uppercase tracking-wider scrollbar-none justify-start md:justify-center shadow-xl">
             {HUNTING_STEPS.map((step, idx) => {
-              const isEven = idx % 2 === 0;
+              const isSelected = activeStepIdx === idx;
               return (
-                <div key={step.stepNumber} className="relative flex flex-col md:flex-row items-stretch gap-8 w-full md:w-auto">
-                  
-                  {/* Timeline Dot Indicator */}
-                  <div className="absolute -left-2.5 md:-left-3.5 top-2 w-5 h-5 md:w-7 md:h-7 rounded-full bg-[#0d0906] border-2 border-amber-400 flex items-center justify-center z-10 shadow-lg">
-                    <span className="text-[8px] md:text-[9px] font-bold text-amber-400 font-mono">{step.stepNumber}</span>
-                  </div>
-
-                  {/* Main Step content box (Desktop Alternating Layout) */}
-                  <div className={`pl-8 md:pl-0 md:w-1/2 flex flex-col justify-center ${
-                    isEven ? "md:pr-12 md:text-right md:items-end" : "md:pl-12 md:order-2 md:items-start"
-                  }`}>
-                    <span className="text-[10px] text-amber-400/90 font-mono uppercase tracking-widest">{step.duration}</span>
-                    <h4 className="font-display text-xl md:text-2xl font-bold text-white uppercase tracking-tight mt-1">{step.title}</h4>
-                    <p className="text-stone-300 text-xs md:text-sm leading-relaxed font-light mt-3 max-w-lg">
-                      {step.longDesc}
-                    </p>
-                    
-                    {/* Golden tip highlight box */}
-                    <div className="bg-[#1c130e] border border-amber-500/10 p-3 rounded-lg text-[10px] font-light text-stone-300 italic mt-4 max-w-md border-solid flex gap-2 items-start text-left">
-                      <Info className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                      <span>{step.tip}</span>
-                    </div>
-                  </div>
-
-                  {/* Visual Image container (Desktop Alternating Layout) */}
-                  <div className={`pl-8 md:pl-0 md:w-1/2 relative rounded-xl overflow-hidden p-1 bg-white/[0.01] border border-white/5 border-solid h-52 md:h-64 ${
-                    isEven ? "md:order-2 md:ml-12" : "md:pr-12 md:mr-12"
-                  }`}>
-                    <img 
-                      src={step.image} 
-                      alt={step.title} 
-                      className="w-full h-full object-cover rounded-lg brightness-[0.7] hover:scale-103 transition-transform duration-500" 
-                      referrerPolicy="no-referrer"
-                    />
-                  </div>
-
-                </div>
+                <button
+                  key={step.stepNumber}
+                  onClick={() => {
+                    setDirection(idx > activeStepIdx ? 1 : -1);
+                    setActiveStepIdx(idx);
+                  }}
+                  className={`px-4 py-2.5 rounded-lg border transition-all duration-300 cursor-pointer shrink-0 whitespace-nowrap ${
+                    isSelected
+                      ? "bg-amber-400 border-amber-400 text-[#110c08] shadow-md"
+                      : "bg-transparent border-white/5 text-stone-400 hover:border-white/20 hover:text-white"
+                  }`}
+                >
+                  Step {step.stepNumber}
+                </button>
               );
             })}
+          </div>
+
+          {/* Interactive Card Workspace */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center bg-[#1c130e] border border-amber-900/30 rounded-2xl p-6 md:p-10 shadow-2xl relative overflow-hidden">
+            
+            {/* Left Page: Step Photo */}
+            <div className="lg:col-span-6 relative min-h-[260px] md:min-h-[380px] w-full [perspective:1200px]">
+              <AnimatePresence mode="wait" custom={direction}>
+                <motion.div
+                  key={activeStepIdx}
+                  custom={direction}
+                  variants={flipVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="w-full h-full rounded-xl overflow-hidden border border-white/10 bg-black/40 relative shadow-xl origin-left"
+                >
+                  <img 
+                    src={HUNTING_STEPS[activeStepIdx].image} 
+                    alt={HUNTING_STEPS[activeStepIdx].title} 
+                    className="w-full h-full object-cover brightness-[0.85]" 
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Right Page: Narrative & Authentic Advice */}
+            <div className="lg:col-span-6 flex flex-col justify-between h-full space-y-8 py-1">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeStepIdx}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  className="space-y-6 text-left"
+                >
+                  <div className="space-y-2">
+                    <span className="text-xs uppercase font-bold tracking-[0.2em] text-amber-400 block font-sans">
+                      {HUNTING_STEPS[activeStepIdx].duration}
+                    </span>
+                    <h4 className="font-sans text-2xl md:text-3xl font-bold text-white uppercase tracking-tight leading-tight">
+                      Step {HUNTING_STEPS[activeStepIdx].stepNumber}: {HUNTING_STEPS[activeStepIdx].title}
+                    </h4>
+                  </div>
+                  
+                  <p className="text-stone-300 text-sm font-light leading-relaxed">
+                    {HUNTING_STEPS[activeStepIdx].longDesc}
+                  </p>
+
+                  {/* Authentic Host Advice Box */}
+                  <div className="bg-black/40 p-4 rounded-xl border border-white/10 text-xs text-stone-300 flex gap-3 shadow-inner">
+                    <Info className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+                    <div className="space-y-1">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-amber-300 block">Tip from Andre & Jenna</span>
+                      <p className="leading-relaxed font-light text-stone-300">{HUNTING_STEPS[activeStepIdx].tip}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Prev / Next controls */}
+              <div className="flex items-center justify-between border-t border-white/10 pt-6">
+                <button
+                  disabled={activeStepIdx === 0}
+                  onClick={() => {
+                    setDirection(-1);
+                    setActiveStepIdx(prev => Math.max(0, prev - 1));
+                  }}
+                  className="flex items-center gap-2 text-stone-400 hover:text-white disabled:opacity-30 disabled:pointer-events-none cursor-pointer transition-colors text-xs uppercase font-bold tracking-wider"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  <span>Previous</span>
+                </button>
+
+                <span className="text-stone-400 text-xs font-semibold uppercase tracking-wider">
+                  Step {activeStepIdx + 1} of 10
+                </span>
+
+                <button
+                  disabled={activeStepIdx === HUNTING_STEPS.length - 1}
+                  onClick={() => {
+                    setDirection(1);
+                    setActiveStepIdx(prev => Math.min(HUNTING_STEPS.length - 1, prev + 1));
+                  }}
+                  className="flex items-center gap-2 text-amber-400 hover:text-amber-300 disabled:opacity-30 disabled:pointer-events-none cursor-pointer transition-colors text-xs uppercase font-bold tracking-wider"
+                >
+                  <span>Next</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>

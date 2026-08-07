@@ -20,7 +20,8 @@ import {
   Mail,
   FileText,
   Info,
-  Twitter
+  Twitter,
+  Camera
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { gsap } from "gsap";
@@ -31,6 +32,7 @@ import { Canvas } from '@react-three/fiber';
 import ParticleSystem from '../components/ParticleSystem';
 import { LODGES_LIST, LODGES } from "../data/lodges";
 import { FAQS } from "../data/faq";
+import { submitForm } from "../lib/forms";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -186,6 +188,7 @@ export default function RootLayout() {
     }
   });
   const [pricingSearchQuery, setPricingSearchQuery] = useState("");
+  const [isVideoPreview, setIsVideoPreview] = useState<boolean>(false);
 
   const checkInDate = new Date(booking.checkIn);
   const checkOutDate = new Date(booking.checkOut);
@@ -197,6 +200,9 @@ export default function RootLayout() {
     window.scrollTo(0, 0);
     lenisRef.current?.scrollTo(0, { immediate: true });
     setIsInquirySubmitted(false);
+    if (location.pathname !== "/") {
+      setIsVideoPreview(false);
+    }
   }, [location.pathname]);
 
   // Lenis smooth scroll
@@ -240,9 +246,19 @@ export default function RootLayout() {
     }
   };
 
-  const handleBookingSubmit = (e: React.FormEvent) => {
+  const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsBookingConfirmed(true);
+    await submitForm({
+      formType: "booking",
+      name: userName,
+      email: userEmail,
+      phone: userPhone,
+      lodge: selectedLodge,
+      package: booking.safariType,
+      dates: `${booking.checkIn} to ${booking.checkOut}`,
+      observers: booking.guests
+    });
   };
 
   // Structured SEO Metadata Schemas
@@ -270,8 +286,14 @@ export default function RootLayout() {
       "addressCountry": "ZA"
     },
     "description": "Ethical South African walk-and-stalk hunting safari conservancy offering bespoke five-star lodge buyouts.",
-    "telephone": "+27-41-980-0199",
-    "priceRange": "$$$$"
+    "telephone": "+27-71-011-6427",
+    "priceRange": "$$$$",
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": -32.9011,
+      "longitude": 25.8902
+    },
+    "elevation": "850m"
   };
 
   const breadcrumbsSchema = {
@@ -309,52 +331,70 @@ export default function RootLayout() {
       </div>
 
       {/* Global Header */}
-      <header className="absolute top-0 left-0 right-0 z-40 max-w-8xl mx-auto px-8 md:px-12 pt-8 md:pt-12 w-full animate-fade-in" id="header-nav">
-        <div className="grid grid-cols-3 items-center pb-8 md:pb-12">
+      <header className="absolute top-0 left-0 right-0 z-40 max-w-8xl mx-auto px-4 md:px-12 pt-5 md:pt-12 w-full animate-fade-in transition-transform duration-700 ease-in-out" id="header-nav">
+        <div className="grid grid-cols-3 items-center pb-5 md:pb-12">
           
           {/* Left: Desktop links & Hamburger */}
           <div className="flex items-center gap-6 lg:gap-10 justify-start">
             <button 
-              onClick={() => {
-                setIsMenuOpen(true);
-                setActiveModal("safaris");
-              }}
-              className="lg:hidden group p-2 -ml-2 text-white hover:text-amber-200 focus:outline-none transition-colors"
+              onClick={() => setIsMenuOpen(true)}
+              className="lg:hidden group p-2 -ml-1 text-white hover:text-amber-200 focus:outline-none transition-colors"
               aria-label="Toggle Menu"
               id="hamburger-menu-btn"
             >
-              <Menu className="w-6 h-6 transform group-hover:scale-110 transition-transform" />
+              <Menu className="w-5 h-5 transform group-hover:scale-110 transition-transform" />
             </button>
             
-            <nav className="hidden lg:flex items-center gap-6 lg:gap-8 text-xs font-semibold tracking-[0.2em] text-white/90 uppercase">
+            <nav className="hidden lg:flex items-center gap-4 lg:gap-6 text-[10px] font-semibold tracking-[0.25em] text-white/90 uppercase">
               <Link to="/about" className="nav-link hover:text-amber-200 transition-colors cursor-pointer text-left bg-transparent border-none">About</Link>
               <Link to="/lodges" className="nav-link hover:text-amber-200 transition-colors cursor-pointer text-left bg-transparent border-none">The Lodges</Link>
-              <Link to="/gallery" className="nav-link hover:text-amber-200 transition-colors cursor-pointer text-left bg-transparent border-none">Gallery</Link>
               <Link to="/packages" className="nav-link hover:text-amber-200 transition-colors cursor-pointer text-left bg-transparent border-none">Packages</Link>
+              <Link to="/gallery" className="nav-link hover:text-amber-200 transition-colors cursor-pointer text-left bg-transparent border-none">Gallery</Link>
+              <Link to="/blog" className="nav-link hover:text-amber-200 transition-colors cursor-pointer text-left bg-transparent border-none">Stories</Link>
               <Link to="/contact" className="nav-link hover:text-amber-200 transition-colors cursor-pointer text-left bg-transparent border-none">Contact Us</Link>
             </nav>
           </div>
 
           {/* Center: Logo */}
           <div className="text-center">
-            <Link to="/" className="inline-block group cursor-pointer transition-colors text-center focus:outline-none bg-transparent border-none">
-              <h1 className="font-sans text-xl md:text-3xl font-bold tracking-[0.35em] text-white group-hover:text-amber-100 transition-colors leading-none" id="main-brand-logo">
-                IVORYTIP
-              </h1>
-              <p className="font-sans text-[8px] md:text-[10px] tracking-[0.5em] text-amber-200/80 uppercase font-medium mt-1.5 leading-none transition-colors group-hover:text-amber-300">
-                S A F A R I S
-              </p>
+            <Link to="/" className="inline-flex flex-col items-center gap-1 group cursor-pointer transition-all duration-300 text-center focus:outline-none bg-transparent border-none">
+              <div className="h-8 md:h-12 aspect-[689/840] overflow-hidden">
+                <img 
+                  src="/assets/logo.png" 
+                  alt="Ivorytip Safaris Logo Mark" 
+                  className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03] select-none"
+                />
+              </div>
+              <span className="font-sans text-[9px] md:text-xs font-bold tracking-[0.2em] text-[#e8dec9] uppercase group-hover:text-white transition-colors">
+                Ivorytip Safaris
+              </span>
             </Link>
           </div>
 
           {/* Right: Booking CTA */}
-          <div className="flex items-center justify-end gap-4 lg:gap-8">
+          <div className="flex items-center justify-end gap-1.5 sm:gap-3 md:gap-4 lg:gap-6">
+            <button 
+              onClick={() => {
+                setIsVideoPreview(true);
+                if (location.pathname !== "/") {
+                  navigate("/");
+                }
+              }}
+              className="btn-shimmer border border-amber-400/50 hover:border-amber-400 hover:text-amber-100 text-amber-200 p-2 sm:px-3 sm:py-2 md:px-5 md:py-2.5 text-[9px] md:text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 hover:bg-white/5 cursor-pointer bg-black/10 backdrop-blur-sm flex items-center gap-1"
+              id="preview-safari-header-btn"
+              aria-label="Preview Safari Video"
+            >
+              <Camera className="w-3.5 h-3.5 text-amber-400" />
+              <span className="hidden sm:inline">Preview</span>
+            </button>
             <button 
               onClick={() => { setActiveModal("availability"); }}
-              className="btn-shimmer border border-white/70 hover:border-amber-200 hover:text-amber-100 px-4 py-2.5 md:px-6 md:py-2.5 text-[9px] md:text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 hover:bg-white/5 cursor-pointer bg-black/10 backdrop-blur-sm"
+              className="btn-shimmer border border-white/70 hover:border-amber-200 hover:text-amber-100 text-white p-2 sm:px-3 sm:py-2 md:px-5 md:py-2.5 text-[9px] md:text-xs font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase transition-all duration-300 hover:bg-white/5 cursor-pointer bg-black/10 backdrop-blur-sm flex items-center justify-center gap-1"
               id="book-safari-header-btn"
+              aria-label="Book Your Hunt"
             >
-              Book Your Safari
+              <Calendar className="w-3.5 h-3.5 sm:hidden" />
+              <span className="hidden sm:inline">Book Your Hunt</span>
             </button>
           </div>
         </div>
@@ -370,7 +410,9 @@ export default function RootLayout() {
           inquiryForm, 
           setInquiryForm, 
           lenisRef, 
-          handleNavClick 
+          handleNavClick,
+          isVideoPreview,
+          setIsVideoPreview
         }} />
       </main>
 
@@ -379,7 +421,7 @@ export default function RootLayout() {
         <section 
           id="cta-section" 
           className="relative z-20 min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat py-20 px-6 lg:px-12 w-full overflow-hidden"
-          style={{ backgroundImage: `url('/assets/hero_bg.jpg')` }}
+          style={{ backgroundImage: `url('/assets/rhino_room_balcony.jpg')` }}
         >
           <div className="absolute inset-0 bg-stone-950/85 pointer-events-none" />
           
@@ -389,15 +431,15 @@ export default function RootLayout() {
             {!isInquirySubmitted ? (
               <div className="space-y-10">
                 <div className="space-y-4 max-w-2xl mx-auto">
-                  <span className="text-xs uppercase tracking-[0.5em] text-amber-400 font-bold block">Reserve Your Sanctuary</span>
+                  <span className="text-xs uppercase tracking-[0.5em] text-amber-400 font-bold block">Book Your Safari</span>
                   <motion.h2
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-80px" }}
                     transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
-                    className="font-sans text-3xl md:text-5xl font-bold text-white tracking-tight uppercase leading-none"
+                    className="font-sans text-3xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight uppercase leading-none"
                   >
-                    Begin Your Journey
+                    Begin Your Hunt
                   </motion.h2>
                   <p className="text-stone-300 text-xs md:text-sm font-light text-center">
                     Complete this gold-draft inquiry. Our professional hunters and lodge coordinators will contact you within 12 hours with a bespoke, customized itinerary draft.
@@ -405,9 +447,17 @@ export default function RootLayout() {
                 </div>
 
                 <form
-                  onSubmit={(e) => {
+                  onSubmit={async (e) => {
                     e.preventDefault();
                     setIsInquirySubmitted(true);
+                    await submitForm({
+                      formType: "cta_inquiry",
+                      name: inquiryForm.name,
+                      email: inquiryForm.email,
+                      lodge: inquiryForm.lodge,
+                      package: inquiryForm.package,
+                      message: inquiryForm.message
+                    });
                   }}
                   className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left"
                 >
@@ -447,7 +497,7 @@ export default function RootLayout() {
                     </select>
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label className="text-[10px] uppercase font-bold tracking-widest text-amber-200">Lodge Sanctuary Priority</label>
+                    <label className="text-[10px] uppercase font-bold tracking-widest text-amber-200">Preferred Lodge</label>
                     <select
                       value={inquiryForm.lodge}
                       onChange={(e) => setInquiryForm({ ...inquiryForm, lodge: e.target.value })}
@@ -496,30 +546,23 @@ export default function RootLayout() {
       )}
 
       {/* Global Footer */}
-      <footer className="w-full bg-[#120e0a] text-stone-400 py-12 px-6 lg:px-12 border-t border-amber-900/10 relative z-20">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+      <footer className="w-full bg-[#120e0a] text-stone-400 py-10 px-6 lg:px-12 border-t border-amber-900/10 relative z-20">
+        <div className="max-w-7xl mx-auto flex flex-col items-center gap-8">
           
-          <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 w-full md:w-auto">
-            <div className="text-white font-sans text-xl font-bold tracking-tight uppercase shrink-0">
+          <div className="flex flex-col items-center gap-4 w-full">
+            <div className="text-white font-sans text-xl font-bold tracking-tight uppercase">
               Ivorytip Safaris
             </div>
             
-            <div className="hidden md:block w-px bg-stone-800 self-stretch my-1" />
-            
-            <div className="flex flex-col gap-2 items-center md:items-start">
-              <div className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-1.5 text-xs text-stone-300 font-medium">
-                <Link to="/about" className="hover:text-amber-400 transition-colors bg-transparent border-none cursor-pointer">About</Link>
-                <Link to="/lodges" className="hover:text-amber-400 transition-colors bg-transparent border-none cursor-pointer">The Lodges</Link>
-                <Link to="/packages" className="hover:text-amber-400 transition-colors bg-transparent border-none cursor-pointer">Packages</Link>
-                <Link to="/contact" className="hover:text-amber-400 transition-colors bg-transparent border-none cursor-pointer">Contact Us</Link>
-              </div>
-              <div className="text-[11px] text-stone-500 font-light">
-                © 2026 Ivorytip Safaris. All rights reserved.
-              </div>
+            <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-stone-300 font-medium">
+              <Link to="/about" className="hover:text-amber-400 transition-colors bg-transparent border-none cursor-pointer">About</Link>
+              <Link to="/lodges" className="hover:text-amber-400 transition-colors bg-transparent border-none cursor-pointer">The Lodges</Link>
+              <Link to="/blog" className="hover:text-amber-400 transition-colors bg-transparent border-none cursor-pointer">Stories</Link>
+              <Link to="/contact" className="hover:text-amber-400 transition-colors bg-transparent border-none cursor-pointer">Contact Us</Link>
             </div>
           </div>
 
-          <div className="flex flex-col items-center md:items-end gap-2 text-center md:text-right w-full md:w-auto">
+          <div className="flex flex-col items-center gap-3 text-center w-full">
             <div className="flex items-center gap-4 text-stone-400 py-1">
               <a href="#" className="hover:text-amber-400 transition-colors" aria-label="Facebook">
                 <Facebook className="w-4 h-4" />
@@ -534,8 +577,19 @@ export default function RootLayout() {
                 <Instagram className="w-4 h-4" />
               </a>
             </div>
-            <div className="text-xs text-stone-500 font-light">
-              Support: <span className="text-stone-400 hover:text-amber-400 transition-colors cursor-pointer">brent.streamlinedigital@gmail.com</span>
+            <div className="text-xs text-stone-500 font-light space-y-1">
+              <div className="flex flex-wrap justify-center gap-x-2">
+                <span>Andre (PH): <a href="tel:+27710116427" className="text-stone-400 hover:text-amber-400 transition-colors">071 011 6427</a></span>
+                <span className="hidden sm:inline">·</span>
+                <span>Jenna (Accom): <a href="tel:+27710144010" className="text-stone-400 hover:text-amber-400 transition-colors">071 014 4010</a></span>
+              </div>
+              <div>
+                <a href="mailto:ivorytipsafaris.info@gmail.com" className="text-stone-400 hover:text-amber-400 transition-colors">ivorytipsafaris.info@gmail.com</a>
+              </div>
+              <div>Nearest Airport: Port Elizabeth (PLZ)</div>
+            </div>
+            <div className="text-[11px] text-stone-600 font-light">
+              © 2026 Ivorytip Safaris. All rights reserved.
             </div>
           </div>
 
@@ -573,7 +627,7 @@ export default function RootLayout() {
                     <div>
                       <div className="border-b border-white/10 pb-6 mb-8 text-left">
                         <span className="text-xs uppercase tracking-widest text-amber-200">Luxury Booking Draft</span>
-                        <h3 className="font-display text-2xl md:text-3xl font-bold text-white mt-1">Review Your Exclusive Journey</h3>
+                        <h3 className="font-sans text-2xl md:text-3xl font-bold text-white mt-1">Review Your Exclusive Hunt</h3>
                         
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4 bg-black/25 p-4 rounded-lg text-xs font-mono">
                           <div>
@@ -596,7 +650,7 @@ export default function RootLayout() {
                       </div>
 
                       <form onSubmit={handleBookingSubmit} className="space-y-6 text-left">
-                        <h4 className="text-xs uppercase tracking-[0.2em] font-semibold text-stone-400 font-sans">Hunter & Guest Registry</h4>
+                        <h4 className="text-xs uppercase tracking-[0.2em] font-semibold text-stone-400 font-serif">Hunter & Guest Registry</h4>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                           <div className="flex flex-col gap-2">
                             <label className="text-[10px] uppercase font-bold tracking-widest text-amber-200">Full Name</label>
@@ -656,7 +710,7 @@ export default function RootLayout() {
                       <div className="mx-auto w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 border-solid">
                         <CheckCircle2 className="w-8 h-8" />
                       </div>
-                      <h3 className="font-display text-3xl font-bold text-white uppercase tracking-tight">Expedition Reserved</h3>
+                      <h3 className="font-sans text-3xl font-bold text-white uppercase tracking-tight">Expedition Reserved</h3>
                       <p className="text-stone-300 text-sm max-w-md mx-auto leading-relaxed">
                         Thank you, <strong className="text-white">{userName}</strong>. A safari coordinator has registered your request for <strong className="text-amber-200">{booking.safariType}</strong> on your selected dates. We will reach out to you within 12 hours.
                       </p>
@@ -669,14 +723,14 @@ export default function RootLayout() {
                 <div className="space-y-6 text-left">
                   <div className="border-b border-white/10 pb-4">
                     <span className="text-xs uppercase tracking-widest text-amber-200">Wilderness Expeditions</span>
-                    <h3 className="font-display text-3xl font-bold text-white mt-1">Our Premium Safari Tiers</h3>
+                    <h3 className="font-sans text-3xl font-bold text-white mt-1">Our Premium Safari Tiers</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {["Luxury 1:1 Safari", "Private Group Expedition", "Companion Observer Program"].map((type, idx) => (
                       <div key={idx} className="bg-black/20 border border-white/5 rounded-xl p-6 space-y-4 flex flex-col justify-between">
                         <div className="space-y-3">
                           <Compass className="w-8 h-8 text-amber-400" />
-                          <h4 className="font-sans text-lg font-bold text-white uppercase">{type}</h4>
+                          <h4 className="font-serif text-lg font-bold text-white uppercase">{type}</h4>
                           <p className="text-stone-400 text-xs leading-relaxed font-light">
                             Our customized options are tailored for perfect comfort, private PH guiding layout, or family-based luxury lodges.
                           </p>
@@ -700,7 +754,7 @@ export default function RootLayout() {
                 <div className="space-y-6 text-left">
                   <div className="border-b border-white/10 pb-4">
                     <span className="text-xs uppercase tracking-widest text-amber-200">Accommodations</span>
-                    <h3 className="font-display text-3xl font-bold text-white mt-1">Signature Lodges</h3>
+                    <h3 className="font-sans text-3xl font-bold text-white mt-1">Signature Lodges</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {LODGES_LIST.map((l, idx) => (
@@ -708,7 +762,7 @@ export default function RootLayout() {
                         <img src={l.heroImage} alt={l.name} className="w-full h-48 object-cover" />
                         <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
                           <div className="space-y-2">
-                            <h4 className="font-sans text-base font-bold text-white uppercase">{l.name}</h4>
+                            <h4 className="font-serif text-base font-bold text-white uppercase">{l.name}</h4>
                             <p className="text-[11px] text-stone-400 leading-relaxed font-light">{l.tagline}</p>
                           </div>
                           <button 
@@ -731,7 +785,7 @@ export default function RootLayout() {
                 <div className="space-y-6 text-left">
                   <div className="border-b border-white/10 pb-4">
                     <span className="text-xs uppercase tracking-widest text-amber-200">Wilderness Craft</span>
-                    <h3 className="font-display text-3xl font-bold text-white mt-1">Bespoke Stalk & Photography Services</h3>
+                    <h3 className="font-sans text-3xl font-bold text-white mt-1">Bespoke Stalk & Photography Services</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {[
@@ -743,7 +797,7 @@ export default function RootLayout() {
                       <div key={idx} className="bg-black/20 border border-white/5 rounded-xl p-6 flex gap-4">
                         <item.icon className="w-8 h-8 text-amber-400 shrink-0" />
                         <div className="space-y-2">
-                          <h4 className="font-sans text-sm font-bold text-white uppercase">{item.title}</h4>
+                          <h4 className="font-serif text-sm font-bold text-white uppercase">{item.title}</h4>
                           <p className="text-[11px] text-stone-400 leading-relaxed font-light">{item.desc}</p>
                         </div>
                       </div>
@@ -782,7 +836,7 @@ export default function RootLayout() {
                 <div className="border-b border-white/10 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
                   <div className="text-left">
                     <span className="text-xs uppercase tracking-widest text-amber-200">Catalog Access</span>
-                    <h3 className="font-display text-2xl md:text-3xl font-bold text-white mt-1">2026 Hunting Price List</h3>
+                    <h3 className="font-sans text-2xl md:text-3xl font-bold text-white mt-1">2026 Hunting Price List</h3>
                   </div>
                   {isPricingUnlocked && (
                     <button
@@ -819,7 +873,7 @@ export default function RootLayout() {
                     </div>
 
                     <form 
-                      onSubmit={(e) => {
+                      onSubmit={async (e) => {
                         e.preventDefault();
                         if (pricingEmail.trim()) {
                           setIsPricingUnlocked(true);
@@ -830,6 +884,12 @@ export default function RootLayout() {
                           } catch (err) {
                             console.error(err);
                           }
+                          await submitForm({
+                            formType: "price_list_view",
+                            name: pricingName,
+                            email: pricingEmail,
+                            message: "Pricing catalog unlock requested."
+                          });
                         }
                       }}
                       className="space-y-4 text-left"
@@ -879,7 +939,7 @@ export default function RootLayout() {
                   >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gradient-to-r from-amber-950/20 to-black/40 border border-amber-500/20 rounded-xl p-5 md:p-6 text-left border-solid">
                       <div className="space-y-2">
-                        <h4 className="text-xs uppercase font-bold tracking-widest text-amber-400 flex items-center gap-1.5 font-sans">
+                        <h4 className="text-xs uppercase font-bold tracking-widest text-amber-400 flex items-center gap-1.5 font-serif">
                           <Clock className="w-4 h-4 text-amber-400" />
                           Daily Hunting Rates
                         </h4>
@@ -1002,6 +1062,90 @@ export default function RootLayout() {
               </div>
             </motion.div>
           </div>
+        )}
+
+        {/* Component 1: Mobile Full-Screen Menu Drawer */}
+        {isMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, x: "-100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "-100%" }}
+            transition={{ duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
+            className="fixed inset-0 z-50 bg-[#120e0a] flex flex-col justify-between p-6 md:p-12 text-left overflow-y-auto"
+          >
+            <div className="flex items-center justify-between border-b border-white/5 pb-5">
+              <div>
+                <span className="text-[10px] tracking-[0.45em] text-amber-200 uppercase font-medium">Ivorytip</span>
+                <span className="text-[8px] tracking-[0.4em] text-stone-400 uppercase font-medium block">Safaris</span>
+              </div>
+              <button 
+                onClick={() => setIsMenuOpen(false)}
+                className="p-2.5 rounded-full bg-white/5 hover:bg-white/10 text-stone-300 hover:text-white transition-colors"
+                aria-label="Close Mobile Menu"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <nav className="flex flex-col gap-6 my-auto text-left">
+              <Link 
+                to="/about" 
+                onClick={() => setIsMenuOpen(false)} 
+                className="font-serif text-3xl sm:text-4xl font-bold text-white hover:text-amber-200 uppercase tracking-wider transition-colors"
+              >
+                About
+              </Link>
+              <Link 
+                to="/lodges" 
+                onClick={() => setIsMenuOpen(false)} 
+                className="font-serif text-3xl sm:text-4xl font-bold text-white hover:text-amber-200 uppercase tracking-wider transition-colors"
+              >
+                The Lodges
+              </Link>
+              <Link 
+                to="/packages" 
+                onClick={() => setIsMenuOpen(false)} 
+                className="font-serif text-3xl sm:text-4xl font-bold text-white hover:text-amber-200 uppercase tracking-wider transition-colors"
+              >
+                Packages
+              </Link>
+              <Link 
+                to="/gallery" 
+                onClick={() => setIsMenuOpen(false)} 
+                className="font-serif text-3xl sm:text-4xl font-bold text-white hover:text-amber-200 uppercase tracking-wider transition-colors"
+              >
+                Gallery
+              </Link>
+              <Link 
+                to="/blog" 
+                onClick={() => setIsMenuOpen(false)} 
+                className="font-serif text-3xl sm:text-4xl font-bold text-white hover:text-amber-200 uppercase tracking-wider transition-colors"
+              >
+                Stories
+              </Link>
+
+              <Link 
+                to="/contact" 
+                onClick={() => setIsMenuOpen(false)} 
+                className="font-serif text-3xl sm:text-4xl font-bold text-white hover:text-amber-200 uppercase tracking-wider transition-colors"
+              >
+                Contact Us
+              </Link>
+            </nav>
+
+            <div className="border-t border-white/5 pt-8 grid grid-cols-2 gap-4 text-xs font-light text-stone-400">
+              <div>
+                <span className="text-[9px] uppercase tracking-widest block text-stone-500 mb-1">Geolocations</span>
+                <span className="text-stone-300 block font-mono">32.9011° S, 25.8902° E</span>
+                <span className="text-[10px] text-stone-500">Eastern Cape Reserve</span>
+              </div>
+              <div>
+                <span className="text-[9px] uppercase tracking-widest block text-stone-500 mb-1">Satellite Line</span>
+                <span className="text-stone-300 block font-mono">+27 (41) 980-0199</span>
+                <span className="text-[10px] text-stone-500">24/7 Operations Duty</span>
+              </div>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
 

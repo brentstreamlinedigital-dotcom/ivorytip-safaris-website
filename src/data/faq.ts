@@ -33,13 +33,19 @@ export const FAQS: FAQItem[] = [
   {
     id: "faq-5",
     question: "Are the lodges suitable for non-hunting companions?",
-    answer: "Absolutely. Over 45% of our bookings include non-hunting spouses, partners, or family members. Our lodges (Kikuyo and Emanzini) offer five-star amenities including heated pools, massage therapists on call, private game drives, guided walking safaris, and stargazing. The culinary experiences, wine pairings, and wilderness proximity make it an unforgettable luxury vacation for non-hunters as well.",
+    answer: "Absolutely. We frequently host non-hunting spouses, partners, and family members. While hunters are in the field, companions can enjoy guided bush walks, game viewing drives, stargazing, or simply relaxing at the lodge. The home-cooked meals, quiet wilderness setting, and warm hospitality make it a peaceful and memorable stay for non-hunters.",
     category: "Lodging & Safety"
   },
   {
     id: "faq-6",
     question: "What is your policy on ethical hunting and 'fair chase'?",
-    answer: "We are strictly committed to ethical hunting and fair chase. Our hunts are conducted on our private 80,000-hectare conservancy with no internal fencing, giving animals a natural, open range to migrate. We track exclusively on foot (walk-and-stalk) to respect the animal's senses. We only harvest mature, past-breeding-age males, helping manage wildlife populations and preserve the genetic health of our herds.",
+    answer: "We are strictly committed to ethical hunting and fair chase. Our hunts are conducted on foot (walk-and-stalk) on our managed farm and private concessions, giving wildlife a natural, open range. We only harvest mature, past-prime males, helping manage wildlife populations and support local conservation efforts on the land.",
     category: "Travel & Entry"
+  },
+  {
+    id: "faq-7",
+    question: "Do you offer photographic safaris for non-hunting guests?",
+    answer: "Yes. Alongside our hunting expeditions, we host dedicated photographic safaris for guests who wish to track and view game with a camera. These trips follow the same walk-and-stalk guiding principles and can be booked standalone or paired with a hunting party's itinerary.",
+    category: "Lodging & Safety"
   }
 ];

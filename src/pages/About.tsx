@@ -14,10 +14,10 @@ import { motion } from "motion/react";
 
 export default function About() {
   const guideStats = [
-    { value: "1984", label: "Heritage Founding Year" },
-    { value: "100%", label: "Fair Chase Walk & Stalk" },
-    { value: "80,000", label: "Hectares Private Conservancy" },
-    { value: "1:1", label: "Hunter-to-PH Guide Ratio" }
+    { value: "2015", label: "Year Founded" },
+    { value: "10,000", label: "Hectares Managed Farm" },
+    { value: "30,000", label: "Hectares Concessions" },
+    { value: "100%", label: "Fair Chase Walk & Stalk" }
   ];
 
   const coreValues = [
@@ -27,13 +27,13 @@ export default function About() {
       icon: Users
     },
     {
-      title: "Active Anti-Poaching Ring",
-      desc: "Sustainable hunting fees directly fund our dedicated, armed anti-poaching patrol units, keeping the conservancy border secure from illegal snares.",
+      title: "Anti Poaching Unit",
+      desc: "Sustainable hunting operations directly help fund our dedicated anti-poaching patrol units, keeping the area secure from illegal snaring.",
       icon: Shield
     },
     {
       title: "Savanna Stewardship",
-      desc: "We manage borehole water wells, direct animal health monitoring, and local community school infrastructure inside the communal districts.",
+      desc: "We maintain local water points, monitor wildlife health, and support conservation initiatives in our surrounding district.",
       icon: Heart
     }
   ];
@@ -47,7 +47,7 @@ export default function About() {
         {/* Background Image Container */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
-            src="/assets/'Fair Hunt' Image.jpg" 
+            src="/assets/about_page_hero.jpg" 
             alt="About Ivorytip Heritage" 
             className="w-full h-full object-cover brightness-[0.4] scale-105 origin-center" 
           />
@@ -61,16 +61,18 @@ export default function About() {
         <div className="absolute bottom-1/4 right-10 w-[500px] h-[500px] bg-amber-600/5 blur-[150px] rounded-full pointer-events-none" />
 
         {/* Main Content Block */}
-        <main className="relative z-30 max-w-8xl mx-auto px-8 md:px-12 flex-1 flex flex-col justify-center items-center py-12 md:py-20 text-center w-full min-h-0 pt-32">
+        <main className="relative z-30 max-w-8xl mx-auto px-6 md:px-12 flex-1 flex flex-col justify-center items-center py-12 md:py-20 text-center w-full min-h-0 pt-24 md:pt-32">
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-4 md:space-y-6">
             <span className="text-amber-200/90 text-xs md:text-sm tracking-[0.6em] font-medium uppercase block">
-              The Legend & Legacy
+              Eastern Cape, South Africa
             </span>
-            <h2 className="font-sans text-4xl sm:text-6xl md:text-7xl font-bold tracking-[0.12em] text-white uppercase drop-shadow-2xl leading-none">
-              Andre & Jenna Crous
+            <h2 className="font-sans text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[0.12em] text-white uppercase drop-shadow-2xl leading-none">
+              Born From
+              <br />
+              The Bush
             </h2>
             <p className="text-stone-300 text-xs md:text-sm font-light tracking-wide max-w-xl mx-auto leading-relaxed">
-              Meet the family, professional hunters, and hospitality hosts dedicating their lives to ethical stalks and raw African stewardship.
+              A family-run hunting safari operation rooted in the Eastern Cape. Andre & Jenna Crous have dedicated their lives to ethical walk-and-stalk hunting and genuine South African hospitality.
             </p>
           </div>
         </main>
@@ -105,10 +107,9 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center text-left">
           <div className="lg:col-span-5 relative rounded-2xl overflow-hidden border border-amber-500/20 p-2 bg-white/[0.02] shadow-xl group">
             <img 
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&h=800&q=80" 
+              src="/assets/Andre 1.jpg" 
               alt="Andre Crous - Professional Hunter" 
               className="w-full h-96 md:h-[500px] object-cover rounded-xl brightness-[0.8] group-hover:scale-102 transition-transform duration-750"
-              referrerPolicy="no-referrer"
             />
             <div className="absolute bottom-6 left-6 bg-black/85 border border-amber-500/25 px-4 py-2 rounded backdrop-blur-md">
               <span className="text-[10px] uppercase font-bold tracking-widest text-amber-300 block">Professional Hunter</span>
@@ -117,22 +118,22 @@ export default function About() {
           </div>
           <div className="lg:col-span-7 space-y-6">
             <span className="text-xs uppercase tracking-[0.4em] text-amber-400 font-bold block">The Spirit of the Stalk</span>
-            <h3 className="font-display text-3xl md:text-5xl font-bold text-white uppercase tracking-tight leading-tight">
+            <h3 className="font-sans text-3xl md:text-5xl lg:text-6xl font-bold text-white uppercase tracking-tight leading-tight">
               Andre Crous: <br />
               Guiding with Respect
             </h3>
             <div className="h-0.5 w-16 bg-amber-500/50 rounded" />
             <p className="text-stone-300 text-sm md:text-base font-light leading-relaxed">
-              Andre was born to the tracks of the South African bushveld. With decades spent reading sand spoor, monitoring valley drafts, and walking alongside native trackers, he leads the field stalks at Ivorytip Safaris. Andre believes a true hunt is a test of camouflage, stealth, and patience.
+              Andre grew up tracking in the South African bushveld, shaping him into a dedicated hunting outfitter. With years spent reading sand spoor, monitoring valley drafts, and walking alongside local trackers, he guides the walk-and-stalk hunting trips at Ivorytip Safaris. Andre believes a true hunt is an authentic test of camouflage, stealth, and patience.
             </p>
             <p className="text-stone-400 text-xs md:text-sm leading-relaxed font-light">
-              Under his guidance, guests do not hunt from vehicles; they walk the acacia corridors, match thermals, and stalks target animals on foot. It is an honest stalk that honors the code of fair chase, ensuring that every harvest is an ethical, hard-earned connection with the wild.
+              Under his guidance, guests do not hunt from vehicles; they walk the acacia corridors, match thermals, and stalk target animals on foot. It is an honest stalk that honors the code of fair chase, ensuring that every harvest is an ethical, hard-earned connection with the wild.
             </p>
             <div className="bg-black/35 p-5 rounded-xl border border-white/5 flex gap-4 text-xs font-light text-stone-300">
               <Award className="w-8 h-8 text-amber-400 shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <span className="font-semibold text-white uppercase block">Master Guide Credentials</span>
-                <p className="leading-relaxed">Full dangerous game licensing, expert tracking logistics, CITES framework compliance.</p>
+                <span className="font-semibold text-white uppercase block">Guiding Credentials</span>
+                <p className="leading-relaxed">Licensed Professional Hunter, tracking logistics, and CITES framework compliance.</p>
               </div>
             </div>
           </div>
@@ -142,31 +143,30 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center text-left">
           <div className="lg:col-span-7 space-y-6 order-2 lg:order-1">
             <span className="text-xs uppercase tracking-[0.4em] text-amber-400 font-bold block">Wilderness Comfort & Hospitality</span>
-            <h3 className="font-display text-3xl md:text-5xl font-bold text-white uppercase tracking-tight leading-tight">
+            <h3 className="font-sans text-3xl md:text-5xl lg:text-6xl font-bold text-white uppercase tracking-tight leading-tight">
               Jenna Crous: <br />
-              Hosting the Boma Heart
+              Hosting the Lodge Heart
             </h3>
             <div className="h-0.5 w-16 bg-amber-500/50 rounded" />
             <p className="text-stone-300 text-sm md:text-base font-light leading-relaxed">
-              While the adventure is defined in the field, the memory is perfected within our walls. Jenna coordinates the luxury hospitality and culinary experiences at Kikuyo and Emanzini. She ensures that every guest is welcomed as an extension of the Crous family, creating a warm, intimate atmosphere.
+              While the adventure is defined in the field, the experience is completed within our lodges. Jenna coordinates the hospitality and culinary arrangements at Kikuyu and Emanzini. She ensures that every guest is welcomed as an extension of the Crous family, creating a warm, intimate atmosphere.
             </p>
             <p className="text-stone-400 text-xs md:text-sm leading-relaxed font-light">
-              From managing private chef wine pairings inside our stone dining bomas to setting up stargazing decks and plunge pools, Jenna’s touch makes the safari feel like home. She believes that trust, shared laughter, and late-night fireside stories are the true definition of African luxury.
+              From coordinating dinners in our lodge dining areas to setting up fireside stargazing setups, Jenna's touch makes the lodge feel like home. She believes that trust, shared laughter, and late-night fireside stories are the true core of South African hospitality.
             </p>
             <div className="bg-black/35 p-5 rounded-xl border border-white/5 flex gap-4 text-xs font-light text-stone-300">
               <Heart className="w-8 h-8 text-amber-400 shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <span className="font-semibold text-white uppercase block">A Legacy of Comfort</span>
-                <p className="leading-relaxed">100% organic local farm produce, custom dietary planning, and five-star lodge hospitality.</p>
+                <span className="font-semibold text-white uppercase block">A Focus on Comfort</span>
+                <p className="leading-relaxed">Fresh local ingredients, custom dietary planning, and warm lodge hospitality.</p>
               </div>
             </div>
           </div>
           <div className="lg:col-span-5 relative rounded-2xl overflow-hidden border border-amber-500/20 p-2 bg-white/[0.02] shadow-xl group order-1 lg:order-2">
             <img 
-              src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&h=800&q=80" 
+              src="/assets/Jenna 1.jpg" 
               alt="Jenna Crous - Hospitality Host" 
               className="w-full h-96 md:h-[500px] object-cover rounded-xl brightness-[0.85] group-hover:scale-102 transition-transform duration-750"
-              referrerPolicy="no-referrer"
             />
             <div className="absolute bottom-6 left-6 bg-black/85 border border-amber-500/25 px-4 py-2 rounded backdrop-blur-md">
               <span className="text-[10px] uppercase font-bold tracking-widest text-amber-300 block">Hospitality Director</span>

@@ -15,7 +15,7 @@ This document outlines the architecture, layout structure, data modeling, animat
 To avoid monolithic components and hardcoded pages, we will separate copy and assets from presentation. We will establish structured TypeScript datasets under `src/data/`:
 1. **`lodges.ts` [NEW]**:
    - Outlines the modular structure of the accommodations.
-   - Initial support for **Kikuyo Lodge** and **Emanzini Lodge**.
+   - Initial support for **Kikuyu Lodge** and **Emanzini Lodge**.
    - Modular properties: id, name, location, tagline, fullDescription, architecture, capacity, staffRatio, poolSpa, powerGrid, stargazing, images (hero, bedroom, bathroom, lifestyle), features, amenities (name, description, lucide-icon).
    - Designed to support future farms and additional lodge listings easily by simply adding records.
 2. **`hunting.ts` [NEW]**:
@@ -37,7 +37,7 @@ We will redesign the homepage as a single-page immersive narrative that flows na
 2. **Experience Overview**: The "Why Ivorytip" story. High-contrast typography, large landscape photography, showing their commitment to ethical hunting, conservation, and deep friendships.
 3. **Luxury Accommodation (The Redesign)**:
    - Complete replacement of standard lists.
-   - Modular tabbed selector: **Kikuyo Lodge** and **Emanzini Lodge**.
+   - Modular tabbed selector: **Kikuyu Lodge** and **Emanzini Lodge**.
    - Dynamic slide-to-reveal imagery and interactive specs comparison.
 4. **Hunting Experience (The Timeline)**:
    - Interactive, scroll-linked storytelling timeline mapping out the stalk journey from Planning to Departure.
@@ -68,7 +68,7 @@ We will redesign the homepage as a single-page immersive narrative that flows na
 
 ### A. Accommodation Tab System & Pages
 - **Component:** `Lodges.tsx` and `LodgeDetail.tsx`.
-- **Navigation:** Segmented tabs for Kikuyo Lodge and Emanzini Lodge.
+- **Navigation:** Segmented tabs for Kikuyu Lodge and Emanzini Lodge.
 - **Support for Expansion:** A single helper component `<LodgeShowcase lodge={currentLodge} />` that handles layout, mapping, and features, allowing developers to add new lodges simply by extending `src/data/lodges.ts`.
 
 ### B. Gallery Experience

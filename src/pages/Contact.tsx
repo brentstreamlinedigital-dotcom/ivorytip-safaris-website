@@ -11,26 +11,43 @@ import {
 } from "lucide-react";
 import { motion } from "motion/react";
 import { LODGES_LIST } from "../data/lodges";
+import { submitForm } from "../lib/forms";
 
 export default function Contact() {
   const { inquiryForm } = useOutletContext<any>();
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [contactData, setContactData] = useState({
     name: inquiryForm.name || "",
     email: inquiryForm.email || "",
     phone: "",
-    package: inquiryForm.package || "The Ivorytip Signature",
     lodge: inquiryForm.lodge || LODGES_LIST[0].name,
+    package: inquiryForm.package || "No preference",
     dates: "",
     hunters: 1,
     observers: 0,
     message: inquiryForm.message || ""
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+    const success = await submitForm({
+      formType: "booking",
+      name: contactData.name,
+      email: contactData.email,
+      phone: contactData.phone,
+      lodge: contactData.lodge,
+      package: contactData.package,
+      dates: contactData.dates,
+      observers: contactData.observers,
+      message: contactData.message
+    });
+    setIsSubmitting(false);
+    if (success) {
+      setIsSubmitted(true);
+    }
   };
 
   return (
@@ -42,7 +59,7 @@ export default function Contact() {
         {/* Background Image Container */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
-            src="/assets/hero_bg.jpg" 
+            src="/assets/booking_page_hero.jpg" 
             alt="Contact Ivorytip Safaris" 
             className="w-full h-full object-cover brightness-[0.4] scale-105 origin-center" 
           />
@@ -56,16 +73,16 @@ export default function Contact() {
         <div className="absolute bottom-1/4 right-10 w-[500px] h-[500px] bg-amber-600/5 blur-[150px] rounded-full pointer-events-none" />
 
         {/* Main Content Block */}
-        <main className="relative z-30 max-w-8xl mx-auto px-8 md:px-12 flex-1 flex flex-col justify-center items-center py-12 md:py-20 text-center w-full min-h-0 pt-32">
+        <main className="relative z-30 max-w-8xl mx-auto px-6 md:px-12 flex-1 flex flex-col justify-center items-center py-12 md:py-20 text-center w-full min-h-0 pt-24 md:pt-32">
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-4 md:space-y-6">
             <span className="text-amber-200/90 text-xs md:text-sm tracking-[0.6em] font-medium uppercase block">
               Reservation Registry
             </span>
             <h2 className="font-sans text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[0.12em] text-white uppercase drop-shadow-2xl leading-none">
-              Secure Booking Consultation
+              Book Your Hunting Safari
             </h2>
             <p className="text-stone-300 text-xs md:text-sm font-light tracking-wide max-w-xl mx-auto leading-relaxed">
-              Register your targets, select dates, and coordinate aircraft transfers. A dedicated hunting specialist responds within 12 hours.
+              Register your targets, select dates, and coordinate your arrival. A dedicated hunting specialist responds within 12 hours.
             </p>
           </div>
         </main>
@@ -88,7 +105,7 @@ export default function Contact() {
             <div className="space-y-8">
               <div className="space-y-2">
                 <span className="text-xs uppercase tracking-widest text-amber-400 font-bold block">Expedition Form</span>
-                <h3 className="font-display text-xl md:text-2xl font-bold text-white uppercase tracking-tight">Register Registry Request</h3>
+                <h3 className="font-sans text-xl md:text-2xl font-bold text-white uppercase tracking-tight">Register Registry Request</h3>
               </div>
 
               <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -156,7 +173,22 @@ export default function Contact() {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <label className="text-[10px] uppercase font-bold tracking-widest text-amber-200">Selected Lodge Sanctuary</label>
+                  <label className="text-[10px] uppercase font-bold tracking-widest text-amber-200">Preferred Package</label>
+                  <select
+                    value={contactData.package}
+                    onChange={(e) => setContactData({ ...contactData, package: e.target.value })}
+                    className="w-full bg-white/[0.03] text-white border border-white/10 rounded-md px-3.5 py-3 text-xs md:text-sm border-solid"
+                  >
+                    <option value="No preference" className="bg-[#1c130d] text-white">No preference</option>
+                    <option value="The Plains Game Starter" className="bg-[#1c130d] text-white">The Plains Game Starter — 6 Days / $4,100</option>
+                    <option value="The Savanna Classic" className="bg-[#1c130d] text-white">The Savanna Classic — 7 Days / $5,900</option>
+                    <option value="The Big Game Monarch" className="bg-[#1c130d] text-white">The Big Game Monarch — 11 Days / $20,000</option>
+                    <option value="Custom Bespoke Hunt" className="bg-[#1c130d] text-white">Custom / Bespoke Hunt</option>
+                  </select>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label className="text-[10px] uppercase font-bold tracking-widest text-amber-200">Selected Lodge</label>
                   <select
                     value={contactData.lodge}
                     onChange={(e) => setContactData({ ...contactData, lodge: e.target.value })}
@@ -165,20 +197,6 @@ export default function Contact() {
                     {LODGES_LIST.map((l, i) => (
                       <option key={i} value={l.name} className="bg-[#1c130d] text-white">{l.name}</option>
                     ))}
-                  </select>
-                </div>
-
-                <div className="flex flex-col gap-2 md:col-span-2">
-                  <label className="text-[10px] uppercase font-bold tracking-widest text-amber-200">Selected Package Style</label>
-                  <select
-                    value={contactData.package}
-                    onChange={(e) => setContactData({ ...contactData, package: e.target.value })}
-                    className="w-full bg-white/[0.03] text-white border border-white/10 rounded-md px-3.5 py-3 text-xs md:text-sm border-solid"
-                  >
-                    <option value="The Plains Game Classic" className="bg-[#1c130d] text-white">The Plains Game Classic ($6,500)</option>
-                    <option value="The Ivorytip Signature" className="bg-[#1c130d] text-white">The Ivorytip Signature ($12,500)</option>
-                    <option value="The Monarch Big Game" className="bg-[#1c130d] text-white">The Monarch Big Game ($19,500)</option>
-                    <option value="Custom Bespoke Hunt" className="bg-[#1c130d] text-white">Custom Bespoke Hunt (Flexible)</option>
                   </select>
                 </div>
 
@@ -195,9 +213,10 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  className="btn-shimmer md:col-span-2 w-full bg-amber-400 hover:bg-amber-500 text-[#110c08] font-bold py-4 rounded-lg uppercase tracking-wider text-xs shadow-xl cursor-pointer"
+                  disabled={isSubmitting}
+                  className="btn-shimmer md:col-span-2 w-full bg-amber-400 hover:bg-amber-500 text-[#110c08] font-bold py-4 rounded-lg uppercase tracking-wider text-xs shadow-xl cursor-pointer disabled:opacity-50"
                 >
-                  Register Secure Booking Request
+                  {isSubmitting ? "Submitting Request..." : "Register Secure Booking Request"}
                 </button>
 
               </form>
@@ -211,9 +230,9 @@ export default function Contact() {
               <div className="mx-auto w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 border-solid">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
-              <h3 className="font-display text-3xl font-bold text-white uppercase tracking-tight">Expedition Logged</h3>
+              <h3 className="font-sans text-3xl font-bold text-white uppercase tracking-tight">Expedition Logged</h3>
               <p className="text-stone-300 text-sm max-w-md mx-auto leading-relaxed">
-                Thank you, <strong className="text-white">{contactData.name}</strong>. A reservations specialist and guide coordinator has registered your request for <strong className="text-amber-200">{contactData.package}</strong>. We will coordinate dates and email you at <strong className="text-white">{contactData.email}</strong> within 12 hours.
+                Thank you, <strong className="text-white">{contactData.name}</strong>. A reservations specialist and guide coordinator has registered your request. We will coordinate dates and email you at <strong className="text-white">{contactData.email}</strong> within 12 hours.
               </p>
             </motion.div>
           )}
@@ -224,9 +243,9 @@ export default function Contact() {
           
           {/* Coordinates Map Card */}
           <div className="bg-[#1c130e] border border-amber-900/30 rounded-2xl p-6 md:p-8 space-y-6 border-solid shadow-2xl">
-            <h4 className="font-display text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <h4 className="font-sans text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
               <Compass className="w-5 h-5 text-amber-400" />
-              Outpost Location
+              Lodge Location
             </h4>
             
             <div className="space-y-4 text-xs font-light text-stone-300">
@@ -239,12 +258,8 @@ export default function Contact() {
                 <span className="font-semibold text-white">2 hours from Gqeberha (Port Elizabeth)</span>
               </div>
               <div className="flex items-center justify-between">
-                <span>Sanctuary Elevation</span>
-                <span className="font-mono text-white">850 Meters</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span>Private Air Runway</span>
-                <span className="font-mono text-white">1,200m Grass Runway</span>
+                <span>Access Mode</span>
+                <span className="font-semibold text-white">Helipad (Private helicopter access)</span>
               </div>
             </div>
 
@@ -257,8 +272,8 @@ export default function Contact() {
                   <Phone className="w-4 h-4" />
                 </div>
                 <div className="space-y-1">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">Satellite Communication</span>
-                  <span className="text-xs text-stone-200 font-mono">+27 (41) 980-0199</span>
+                  <span className="text-[10px] uppercase font-bold text-stone-500 block">Lodge Reception (Jenna)</span>
+                  <span className="text-xs text-stone-200 font-mono">+27 71 014 4010</span>
                 </div>
               </div>
 
@@ -267,8 +282,8 @@ export default function Contact() {
                   <Mail className="w-4 h-4" />
                 </div>
                 <div className="space-y-1">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">Director of Booking</span>
-                  <span className="text-xs text-stone-200 font-mono">brent.streamlinedigital@gmail.com</span>
+                  <span className="text-[10px] uppercase font-bold text-stone-500 block">Director of Bookings</span>
+                  <span className="text-xs text-stone-200 font-mono">ivorytipsafaris.info@gmail.com</span>
                 </div>
               </div>
             </div>
